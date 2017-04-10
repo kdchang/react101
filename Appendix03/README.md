@@ -16,22 +16,22 @@
 
 1. 安裝環境與套件
 
-	安裝 `react` 和 `react-dom`
+安裝 `react` 和 `react-dom`
 
-	```
-	$ npm install --save react react-dom
-	```
+```
+$ npm install --save react react-dom
+```
 
-	可以在全域安裝 mocha：  
+可以在全域安裝 mocha：  
 
-	```
-	$ npm install --global mocha
-	```
+```
+$ npm install --global mocha
+```
 
-	也可以在開發環境下本地端安裝（同時安裝了 babel、eslint、webpack 等相關套件，其中以 mocha、chai、babel 為主要必須）：
+也可以在開發環境下本地端安裝（同時安裝了 babel、eslint、webpack 等相關套件，其中以 mocha、chai、babel 為主要必須）：
 
-	```
-	$ npm install --save-dev babel-core babel-loader babel-eslint babel-preset-react babel-preset-es2015 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react webpack webpack-dev-server html-webpack-plugin chai mocha
+```
+$ npm install --save-dev babel-core babel-loader babel-eslint babel-preset-react babel-preset-es2015 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react webpack webpack-dev-server html-webpack-plugin chai mocha
 ```
 
 2. 測試程式碼
@@ -42,184 +42,184 @@
 
 3. 整合 assertion 函式庫 `Chai`
 
-	所謂的 assertion（斷言），就是判斷程式碼的執行成果是否和預期一樣，若是不一致則會發生錯誤。通常一個 test case 會擁有一個或多個 assertion。由於 Mocha 本身是一個測試框架，但不包含 assertion，所以我們使用 [Chai](http://chaijs.com/) 這個適用於瀏覽器端和 Node 端的 BDD / TDD assertion library。在 Chai 中共提供三種操作 assertion 介面風格：Expect、Assert、Should，在這邊我們選擇使用比較接近自然語言的 Expect。
+所謂的 assertion（斷言），就是判斷程式碼的執行成果是否和預期一樣，若是不一致則會發生錯誤。通常一個 test case 會擁有一個或多個 assertion。由於 Mocha 本身是一個測試框架，但不包含 assertion，所以我們使用 [Chai](http://chaijs.com/) 這個適用於瀏覽器端和 Node 端的 BDD / TDD assertion library。在 Chai 中共提供三種操作 assertion 介面風格：Expect、Assert、Should，在這邊我們選擇使用比較接近自然語言的 Expect。
 
-	基本上，expect assertion 的寫法都是類似：開頭為 `expect` 方法 + `to` 或 `to.be` + 結尾 assertion 方法（例如：equal、a/an、ok、match）
+基本上，expect assertion 的寫法都是類似：開頭為 `expect` 方法 + `to` 或 `to.be` + 結尾 assertion 方法（例如：equal、a/an、ok、match）
 
 4. Mocha 基本用法
 
-	mocha 若沒指定要執行哪個檔案，預設會執行 `test` 資料夾下第一層的測試程式碼。若要讓 `test` 資料夾中的子資料夾測試碼也執行則要加上 `--recursive` 參數。 
+mocha 若沒指定要執行哪個檔案，預設會執行 `test` 資料夾下第一層的測試程式碼。若要讓 `test` 資料夾中的子資料夾測試碼也執行則要加上 `--recursive` 參數。 
 
-	包含子資料夾：
+包含子資料夾：
 
-	```
-	$ mocha --recursive
-	```
+```
+$ mocha --recursive
+```
 
-	指定一個檔案
+指定一個檔案
 
-	```
-	$ mocha file1.js 
-	```
+```
+$ mocha file1.js 
+```
 
-	也可以指定多個檔案
+也可以指定多個檔案
 
-	```
-	$ mocha file1.js file2.js
-	```
+```
+$ mocha file1.js file2.js
+```
 
-	現在，我們來撰寫一個簡單的測試程式，親身感受一下測試的感覺。以下是 `react-mocha-test-example/src/modules/add.js`，一個加法的函數：
+現在，我們來撰寫一個簡單的測試程式，親身感受一下測試的感覺。以下是 `react-mocha-test-example/src/modules/add.js`，一個加法的函數：
 
-	```javascript
-	const add = (x, y) => (
-	  x + y
-	);
+```javascript
+const add = (x, y) => (
+  x + y
+);
 
-	export default add;
-	```
+export default add;
+```
 
-	接著我們撰寫測試這個函數的程式碼，測試是否正確。以下是 `react-mocha-test-example/src/test/add.test.js`：
+接著我們撰寫測試這個函數的程式碼，測試是否正確。以下是 `react-mocha-test-example/src/test/add.test.js`：
 
-	```
-	// test add.js
-	import add from '../src/modules/add';
-	import { expect } from 'chai';
+```js
+// test add.js
+import add from '../src/modules/add';
+import { expect } from 'chai';
 
-	// describe is test suite, it is test case
-	describe('test add function', () => (
-	  it('1 + 1 = 2', () => (
-	    expect(add(1, 1)).to.be.equal(2)
-	  ))
-	));
-	```
+// describe is test suite, it is test case
+describe('test add function', () => (
+  it('1 + 1 = 2', () => (
+    expect(add(1, 1)).to.be.equal(2)
+  ))
+));
+```
 
-	在開始執行 `mocha` 後由於我們使用了，ES6 的語法所以必須使用 bable 進行轉譯，否則會出現類似以下的錯誤：
+在開始執行 `mocha` 後由於我們使用了，ES6 的語法所以必須使用 bable 進行轉譯，否則會出現類似以下的錯誤：
 
-	```
-	import add from '../src/modules/add';
-	^^^^^^
-	```
+```js
+import add from '../src/modules/add';
+^^^^^^
+```
 
-	我們先行設定 `.bablerc`，我們在之前已經有安裝 `babel` 相關套件和 `presets` 所以就會將 ES2015 語法轉譯。
+我們先行設定 `.bablerc`，我們在之前已經有安裝 `babel` 相關套件和 `presets` 所以就會將 ES2015 語法轉譯。
 
-	```
-	{
-		"presets": [
-	  	"es2015",
-	  	"react",
-	 	],
-		"plugins": []
-	}
-	```
+```js
+{
+	"presets": [
+	"es2015",
+	"react",
+	],
+	"plugins": []
+}
+```
 
-	此時，我們更改 `package.json` 中的 `scripts`，這樣方便每次測試執行：
+此時，我們更改 `package.json` 中的 `scripts`，這樣方便每次測試執行：
 
-	若是使用本地端：
+若是使用本地端：
 
-	```
-	$ ./node_modules/mocha/bin/mocha --compilers js:babel-core/register
-	```
+```
+$ ./node_modules/mocha/bin/mocha --compilers js:babel-core/register
+```
 
-	若是使用全域：
+若是使用全域：
 
-	```
-	$ mocha --compilers js:babel-core/register
-	```
+```
+$ mocha --compilers js:babel-core/register
+```
 
-	若是一切順利，我們就可以看到執行測試成功的結果：
+若是一切順利，我們就可以看到執行測試成功的結果：
 
-	```
-	$ mocha add.test.js
+```
+$ mocha add.test.js
 
-	  test add function
-	    ✓ 1 + 1 = 2
+  test add function
+    ✓ 1 + 1 = 2
 
 
-	  1 passing (181ms)
-	```
+  1 passing (181ms)
+```
 
 5. Mocha 指令參數
 
-	在 Mocha 中有許多可以使用的好用參數，例如：`--recursive` 可以執行執行測試資料夾下的子資料夾程式碼、`--reporter 格式` 更改測試報告格式（預設是 `spec`，也可以更改為 `tap`）、`--watch` 用來監控測試程式碼，當有測試程式碼更新就會重新執行、`--grep` 擷取符合條件的 test case。
+在 Mocha 中有許多可以使用的好用參數，例如：`--recursive` 可以執行執行測試資料夾下的子資料夾程式碼、`--reporter 格式` 更改測試報告格式（預設是 `spec`，也可以更改為 `tap`）、`--watch` 用來監控測試程式碼，當有測試程式碼更新就會重新執行、`--grep` 擷取符合條件的 test case。
 
-	以上這些參數我們可以都整理在 `test` 資料夾下的 `mocha.opts` 檔案中當作設定資料，此時再次執行 `npm run test` 就會把參數也使用進去。
+以上這些參數我們可以都整理在 `test` 資料夾下的 `mocha.opts` 檔案中當作設定資料，此時再次執行 `npm run test` 就會把參數也使用進去。
 
-	```
-	--watch
-	--reporter spec
-	```
+```
+--watch
+--reporter spec
+```
 
 6. 非同步測試
 
-	在上面我們討論的主要是同步的狀況，但實際上在開發應用時往往會遇到非同步的情形。而在 Mocha 中每個 test case 最多允許執行 2000 毫秒，當時間超過就會顯示錯誤。為了解決這個問題我們可以在 `package.json` 中更改：`"test": "mocha -t 5000 --compilers js:babel-core/register"` 檔案。
+在上面我們討論的主要是同步的狀況，但實際上在開發應用時往往會遇到非同步的情形。而在 Mocha 中每個 test case 最多允許執行 2000 毫秒，當時間超過就會顯示錯誤。為了解決這個問題我們可以在 `package.json` 中更改：`"test": "mocha -t 5000 --compilers js:babel-core/register"` 檔案。
 
-	為了模擬測試非同步的情境，所以我們必須先安裝 [axios](https://github.com/mzabriskie/axios)。
+為了模擬測試非同步的情境，所以我們必須先安裝 [axios](https://github.com/mzabriskie/axios)。
 
-	```
-	$ npm install --save axios
-	```
+```
+$ npm install --save axios
+```
 
-	以下是 `react-mocha-test-example/src/test/async.test.js`：
+以下是 `react-mocha-test-example/src/test/async.test.js`：
 
-	```javascript
-	import axios from 'axios';
-	import { expect } from 'chai';
+```javascript
+import axios from 'axios';
+import { expect } from 'chai';
 
-	it('asynchronous return an object', function(done){
-	  axios
-	    .get('https://api.github.com/users/torvus')
-	    .then(function (response) {
-	      expect(response).to.be.an('object');
-	      done();
-	    })
-	    .catch(function (error) {
-	      console.log(error);
-	    });
-	});
-	```
+it('asynchronous return an object', function(done){
+  axios
+    .get('https://api.github.com/users/torvus')
+    .then(function (response) {
+      expect(response).to.be.an('object');
+      done();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+```
 
-	由於測試環境是在 Node 中，所以我們必須先安裝 [node-fetch](https://github.com/bitinn/node-fetch) 來展現 promise 的情境。
+由於測試環境是在 Node 中，所以我們必須先安裝 [node-fetch](https://github.com/bitinn/node-fetch) 來展現 promise 的情境。
 
-	```
-	$ npm install --save node-fetch 
-	```
+```
+$ npm install --save node-fetch 
+```
 
-	以下是 `react-mocha-test-example/src/test/promise.test.js`：
+以下是 `react-mocha-test-example/src/test/promise.test.js`：
 
-	```javascript
-	import fetch from 'node-fetch';
-	import { expect } from 'chai';
+```javascript
+import fetch from 'node-fetch';
+import { expect } from 'chai';
 
-	it('asynchronous fetch promise', function() {
-	  return fetch('https://api.github.com/users/torvus')
-	    .then(function(response) { return response.json() })
-	    .then(function(json) { 
-	      expect(json).to.be.an('object');
-	    });
-	});
-	```
+it('asynchronous fetch promise', function() {
+  return fetch('https://api.github.com/users/torvus')
+    .then(function(response) { return response.json() })
+    .then(function(json) { 
+      expect(json).to.be.an('object');
+    });
+});
+```
 
 7. 測試使用的 hook
 
-	在 Mocha 中的 test suite 中，有 before()、after()、beforeEach() 和 afterEach() 四種 hook，可以讓你設計在特定時間點執行測試。
+在 Mocha 中的 test suite 中，有 before()、after()、beforeEach() 和 afterEach() 四種 hook，可以讓你設計在特定時間點執行測試。
 
-	```javascript
-	describe('hooks', function() {
-	  before(function() {
-	    // 在 before 中的 test case 會在所有 test cases 前執行
-	  });
-	  after(function() {
-	    // 在 after 中的 test case 會在所有 test cases 後執行
-	  });
-	  beforeEach(function() {
-	    // 在 beforeEach 中的 test case 會在每個 test cases 前執行
-	  });
-	  afterEach(function() {
-	    // 在 afterEach 中的 test case 會在每個 test cases 後執行
-	  });
-	  // test cases
-	});
-	```
+```javascript
+describe('hooks', function() {
+  before(function() {
+    // 在 before 中的 test case 會在所有 test cases 前執行
+  });
+  after(function() {
+    // 在 after 中的 test case 會在所有 test cases 後執行
+  });
+  beforeEach(function() {
+    // 在 beforeEach 中的 test case 會在每個 test cases 前執行
+  });
+  afterEach(function() {
+    // 在 afterEach 中的 test case 會在每個 test cases 後執行
+  });
+  // test cases
+});
+```
 
 ## 動手實作
 在上面我們已經先講解了 `Mocha` + `Chai` 測試工具和基礎的測試寫法。現在接著我們要來探討 React 中的測試用法。然而，要在 React 中測試 Component 以及 JSX 語法時，使用傳統的測試工具並不方便，所以要整合 `Mocha` + `Chai` 官方提供的[測試工具](https://facebook.github.io/react/docs/test-utils.html)和 Airbnb 所設計的 [Enzyme](https://github.com/airbnb/enzyme)（由於官方的測試工具使用起來不太方便所以有第三方針對其進行封裝）進行測試。

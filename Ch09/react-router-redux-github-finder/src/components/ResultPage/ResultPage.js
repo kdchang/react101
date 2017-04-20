@@ -7,9 +7,4 @@ const ResultPage = props => (
   </div>
 );
 
-ResultPage.propTypes = {
-  data: React.PropTypes.string,
-  location: React.PropTypes.Object,
-};
-
 export default ResultPage;

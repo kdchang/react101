@@ -140,6 +140,24 @@ const TodoList = ({
 export default TodoList;
 ```
 
+以下是 `src/components/Main/Main.js` 的部份：
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TodoHeaderContainer from '../../containers/TodoHeaderContainer';
+import TodoListContainer from '../../containers/TodoListContainer';
+
+const Main = () => (
+  <div>
+    <TodoHeaderContainer />
+    <TodoListContainer />
+  </div>
+);
+
+export default Main;
+```
+
 ## 總結
 That's it！透過區分 Container 與 Presentational Components 可以讓程式架構和職責更清楚了！接下來我們將運用我們所學實際開發兩個貼近生活的專案，讓讀者更加熟悉 React 生態系如何應用於實務上。
 

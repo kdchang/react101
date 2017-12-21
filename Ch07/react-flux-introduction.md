@@ -226,7 +226,7 @@ export default TodoStore;
 
 ```javascript
 import React, { Component } from 'react';
-import { TodoActions } from '../../actions/todoActions';
+import { TodoActions } from './../actions/todoActions';
 
 class TodoHeader extends Component {
   constructor(props) {
@@ -278,7 +278,7 @@ export default TodoHeader;
 
 ```javascript
 import React, { Component } from 'react';
-import TodoStore from '../../stores/TodoStore';
+import TodoStore from './../stores/TodoStore';
 
 function getAppState() {
   return {

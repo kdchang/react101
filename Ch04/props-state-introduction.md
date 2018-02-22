@@ -112,8 +112,6 @@ app.js：
 class Timer extends React.Component {
 	constructor(props) {
 		super(props);
-		// 與 ES5 React.createClass({}) 不同的是 component 內自定義的方法需要自行綁定 this context，或是使用 arrow function
-        this.tick = this.tick.bind(this);
 		// 初始 state，等於 ES5 中的 getInitialState
 		this.state = {
 			secondsElapsed: 0,
@@ -125,7 +123,7 @@ class Timer extends React.Component {
 	}
 	// componentDidMount 為 component 生命週期中階段 component 已插入節點的階段，通常一些非同步操作都會放置在這個階段。這便是每1秒鐘會去呼叫 tick 方法
 	componentDidMount() {
-	    this.interval = setInterval(this.tick, 1000);
+	    this.interval = setInterval(this.tick.bind(this), 1000);
 	}
 	// componentWillUnmount 為 component 生命週期中 component 即將移出插入的節點的階段。這邊移除了 setInterval 效力
 	componentWillUnmount() {

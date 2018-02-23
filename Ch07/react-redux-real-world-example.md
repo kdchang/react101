@@ -21,7 +21,7 @@ $ npm install --save react react-dom redux react-redux immutable redux-actions r
 ```
 
 ```
-$ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server
+$ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server redux-logger
 ```
 
 安裝好後我們可以設計一下我們的資料夾結構，首先我們在根目錄建立 `src`，放置 `script` 的 `source` 。在 `components` 資料夾中我們會放置所有 `components`（個別元件資料夾中會用 `index.js` 輸出元件，讓引入元件更簡潔）、`containers`（負責和 store 互動取得 state），另外還有 `actions`、`constants`、`reducers`、`store`，其餘設定檔則放置於根目錄下。
@@ -81,13 +81,13 @@ ReactDOM.render(
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoHeaderContainer from '../../containers/TodoHeaderContainer';
-import TodoListContainer from '../../containers/TodoListContainer';
+import TodoHeader from '../TodoHeader';
+import TodoList from '../TodoList';
 
 const Main = () => (
   <div>
-    <TodoHeaderContainer />
-    <TodoListContainer />
+    <TodoHeader />
+    <TodoList />
   </div>
 );
 
@@ -151,6 +151,10 @@ export const TodoState = Immutable.fromJS({
     completed: false,
   }
 });
+
+export const UiState  = Immutable.fromJS({
+  'myUIState': '',
+});
 ```
 
 接下來我們要討論的是 Reducers 的部份，在 `todoReducers` 中我們會根據接收到的 action 進行 mapping 到對應的處理函式並傳入夾帶的 `payload` 資料（這邊我們使用 [redux-actions](https://github.com/acdlite/redux-actions) 來進行 mapping，使用上比傳統的 switch 更為簡潔）。Reducers 接收到 action 的處理方式為 `(initialState, action) => newState`，最終會回傳一個新的 state，而非更改原來的 state，所以這邊我們使用 `ImmutableJS`。
@@ -183,7 +187,7 @@ export default todoReducers;
 
 ```javascript
 import { handleActions } from 'redux-actions';
-import UiState from '../../constants/models';
+import { UiState } from '../../constants/models';
 
 export default handleActions({
   SHOW: (state, { payload }) => (
@@ -246,7 +250,6 @@ export { default } from './configureStore';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import TodoHeader from '../../components/TodoHeader';
 
 // 將欲使用的 actions 引入
 import {
@@ -271,11 +274,6 @@ const mapDispatchToProps = (dispatch) => ({
 	}
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(TodoHeader);
-
 // 開始建設 Component 並使用 connect 進來的 props 並綁定事件（onChange、onClick）。注意我們的 state 因為是使用 `ImmutableJS` 所以要用 `get()` 取值
 const TodoHeader = ({
   onChangeText,
@@ -289,7 +287,10 @@ const TodoHeader = ({
   </div>
 );
 
-export default TodoHeader;
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(TodoHeader);
 ```
 
 以下是 `src/components/TodoList/TodoList.js` 的部份：
@@ -298,7 +299,6 @@ export default TodoHeader;
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import TodoList from '../../components/TodoList';
 
 import {
   deleteTodo,
@@ -314,11 +314,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(deleteTodo({ index }))
   )
 });
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(TodoList);
 
 // Component 部分值的注意的是 todos state 是透過 map function 去迭代出元素，由於要讓 React JSX 可以渲染並保持傳入觸發 event state 的 immutable，所以需使用 toJS() 轉換 component of array。
 const TodoList = ({
@@ -339,7 +334,10 @@ const TodoList = ({
   </div>
 );
 
-export default TodoList;
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(TodoList);
 ```
 
 若是一切順利的話就可以在瀏覽器上看到自己努力的成果囉！（因為我們有使用 `redux-logger` 所以打開 console 會看到 action 和 state 的變化情形，但記得在 `production` 環境要拿掉）

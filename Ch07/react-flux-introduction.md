@@ -142,7 +142,7 @@ ReactDOM.render(<App />, document.getElementById('app'));
 export const ADD_TODO = 'ADD_TODO';
 ```
 
-在這個範例中我們繼承了 Facebook 提供的 Dispatcher API（主要是繼承了 `dispatch`、`register` 和 `subscribe` 的方法），打造自己的 DispatcherClass，當使用者觸發 `handleAction()` 會 `dispatch` 出事件。以下是 `src/dispatch/AppDispatcher.js`：
+在這個範例中我們繼承了 Facebook 提供的 Dispatcher API（主要是繼承了 `dispatch`、`register` 和 `subscribe` 的方法），打造自己的 DispatcherClass，當使用者觸發 `handleAction()` 會 `dispatch` 出事件。以下是 `src/dispatcher/AppDispatcher.js`：
 
 ```javascript
 // Todo app dispatcher with actions responding to both

@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import Immutable from 'immutable';
 import rootReducer from '../reducers';
 

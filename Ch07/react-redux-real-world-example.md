@@ -155,6 +155,7 @@ export const TodoState = Immutable.fromJS({
 
 接下來我們要討論的是 Reducers 的部份，在 `todoReducers` 中我們會根據接收到的 action 進行 mapping 到對應的處理函式並傳入夾帶的 `payload` 資料（這邊我們使用 [redux-actions](https://github.com/acdlite/redux-actions) 來進行 mapping，使用上比傳統的 switch 更為簡潔）。Reducers 接收到 action 的處理方式為 `(initialState, action) => newState`，最終會回傳一個新的 state，而非更改原來的 state，所以這邊我們使用 `ImmutableJS`。
 
+以下是 `src/reducers/data/todoReducers.js`
 ```javascript
 import { handleActions } from 'redux-actions';
 import { TodoState } from '../../constants/models';
@@ -180,7 +181,7 @@ import {
 
 export default todoReducers;
 ```
-
+以下是 `src/reducers/ui/uiReducers.js`
 ```javascript
 import { handleActions } from 'redux-actions';
 import UiState from '../../constants/models';
@@ -196,6 +197,7 @@ export default handleActions({
 
 由於 Redux 官方也沒有特別明確或嚴謹的規範。在一般情況我會將 reducers 分為 `data` 和單純和 UI 有關的 `ui` state。但由於這邊是比較簡單的例子，我們最終只使用到 `src/reducers/data/todoReducers.js`。 
 
+以下是 `src/reducers/index.js`
 ```javascript
 import { combineReducers } from 'redux-immutable';
 import ui from './ui/uiReducers';// import routes from './routes';

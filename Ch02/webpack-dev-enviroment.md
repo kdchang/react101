@@ -189,7 +189,7 @@
 	ReactDOM.render(<App />, document.getElementById('app'));
 	```
 
-7. 在終端機使用 `webpack` 進行成果展示，webpack 相關指令：
+7. 在終端機使用 `webpack` 進行成果展示，webpack 相關指令(若依上述過程將webpack安裝至local project的方式執行下來，此時終端機在專案根目錄輸入webpack是無法執行，必須透過設定package.json的scripts，在根目錄執行npm run XXX，npm會嘗試使用local project的webpack;或者至node_modules/.bin目錄底下執行webpack。參考自:https://webpack.js.org/get-started/install-webpack/#local-installation)：
 
 	- webpack：會在開發模式下開始一次性的建置
 	- webpack -p：會建置 production 的程式碼 

@@ -79,7 +79,7 @@
 	// 按指示初始化 NPM 設定檔 package.json
 	$ npm init 
 	// --save-dev 是可以讓你將安裝套件的名稱和版本資訊存放到 package.json，方便日後使用
-	$ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react html-webpack-plugin webpack webpack-dev-server
+	$ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react html-webpack-plugin webpack webpack-cli webpack-dev-server
 	```
 
 3. 在根目錄設定 `webpack.config.js`
@@ -107,8 +107,8 @@
 	    filename: 'index_bundle.js',
 	  },
 	  module: {
-	  	// loaders 則是放欲使用的 loaders，在這邊是使用 babel-loader 將所有 .js（這邊用到正則式）相關檔案（排除了 npm 安裝的套件位置 node_modules）轉譯成瀏覽器可以閱讀的 JavaScript。preset 則是使用的 babel 轉譯規則，這邊使用 react、es2015。若是已經單獨使用 .babelrc 作為 presets 設定的話，則可以省略 query
-	    loaders: [
+	  	// rules 則是放欲使用的 loaders，在這邊是使用 babel-loader 將所有 .js（這邊用到正則式）相關檔案（排除了 npm 安裝的套件位置 node_modules）轉譯成瀏覽器可以閱讀的 JavaScript。preset 則是使用的 babel 轉譯規則，這邊使用 react、es2015。若是已經單獨使用 .babelrc 作為 presets 設定的話，則可以省略 query
+	    rules: [
 	      {
 	        test: /\.js$/,
 	        exclude: /node_modules/,

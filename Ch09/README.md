@@ -1,6 +1,6 @@
-# Ch09 用 React + Router + Redux + ImmutableJS 寫一個 Github 查詢應用
+# Learn by Writing: Using React + Router + Redux + ImmutableJS to write a Github search app
 
-1. [用 React + Router + Redux + ImmutableJS 寫一個 Github 查詢應用](https://github.com/kdchang/reactjs101/blob/master/Ch09/react-router-redux-github-finder.md)
+1. [Learn by Writing: Using React + Router + Redux + ImmutableJS to write a Github search app](https://github.com/sycherng/reactjs101/blob/en-US/Ch09/react-router-redux-github-finder.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

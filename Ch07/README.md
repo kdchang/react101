@@ -1,8 +1,8 @@
 # Ch07 Flux/Redux
 
-1. [Flux 基礎概念與實戰入門](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-flux-introduction.md)
-2. [Redux 基礎概念](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-redux-introduction.md)
-3. [Redux 實戰入門](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-redux-real-world-example.md)
+1. [Flux Basic Concept and Putting to Practice](https://github.com/sycherng/reactjs101/blob/en-US/Ch07/react-flux-introduction.md)
+2. [Redux Basic Concept](https://github.com/sycherng/reactjs101/blob/en-US/Ch07/react-redux-introduction.md)
+3. [Redux Real World Example](https://github.com/sycherng/reactjs101/blob/en-US/Ch07/react-redux-real-world-example.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

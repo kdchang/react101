@@ -1,52 +1,52 @@
-# Container 與 Presentational Components 入門
+# Container and Presentational Components Introduction
 
-## 前言
-在聊完了 React 和 Redux 整合後我們來談談分離 Presentational 和 Container Component 的概念，若你是第一次聽過這個名詞，我建議你可以先看看 Redux 作者 Dan AbramovFollow 所寫的這篇文章 [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.vtcuxsurv)。
+## Foreword
+After chatting about React and Redux integration we now will discuss the concept of separating Presentational dn Container components, if this is the first time you have heard of this term, I recommend you can first take a look at author Dan Abramov's article [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.vtcuxsurv).
 
-## Container 與 Presentational Components 超級比一比
-以下先參考 [Redux 官網](http://redux.js.org/docs/basics/UsageWithReact.html) 列出兩者相異之處：
+## Container and Presentational Components Super Comparison
+Below I referenced [Redux official documentation](http://redux.js.org/docs/basics/UsageWithReact.html) to list the difference between the two:
 
 1. Presentational Components	
-	- 用途：怎麼看事情（Markup、外觀）
-	- 是否讓 Redux 意識到：否
-	- 取得資料方式：從 props 取得
-	- 改變資料方式：從 props 去呼叫 callback function
-  - 寫入方式：手動處理
+	- Purpose: how things look (Markup, aesthetics)
+	- Should let Redux be aware of it: no
+	- Method of data acquiry: via props
+	- Method to alter data: using props to call callback functions
+  - Entry method: manually
 
 2. Container Components
- - 用途：怎麼做事情（擷取資料，更新 State）
- - 是否讓 Redux 意識到：是
- - 取得資料方式：訂閱 Redux State（store）
- - 改變資料方式：Dispatch Redux Action
- - 寫入方式：從 React Redux 產生
+ - Purpose: how to do things (get data, update State)
+ - Should let Redux be aware of it: yes
+ - Method of data acquiry: subscribing to Redux State (store)
+ - Method to alter data: Dispatch Redux Action
+ - Entry method: created with React Redux
 
- 從上面的分析讀者可以發現，兩者最大的差別在於 `Component` 主要負責單純的 UI 的渲染，而 `Container` 則負責和 Redux 的 store 溝通，作為 `Redux` 和 `Component` 之間的橋樑。這樣的分法可以讓程式架構和職責更清楚，所以接下來我們就使用上一章節的 Redux TodoApp 進行改造，改造成 Container 與 Presentational Components 模式。
+ From the above analysis readers may discover, the biggest difference between the two is with presentational `Component`s are chiefly responsible for simple UI rendering, while `Container` components mainly handle communication between Redux and store, serving as the bridge between `Redux` and `Component`. This strategy allows code structure and division of labor to be more clear, so now we will use last article's Redux TodoApp for refactoring, to a Container and Presentational Components format.
 
 ## Container Components
 
-以下是 `src/containers/TodoHeaderContainer/TodoHeaderContainer.js` 的部份：
+Below is the `src/containers/TodoHeaderContainer/TodoHeaderContainer.js` portion:
 
 ```javascript
 import { connect } from 'react-redux';
 import TodoHeader from '../../components/TodoHeader';
 
-// 將欲使用的 actions 引入
+// import desired actions
 import {
   changeText,
   createTodo,
 } from '../../actions';
 
 const mapStateToProps = (state) => ({
-  // 從 store 取得 todo state
+  // get todo state from store
   todo: state.getIn(['todo', 'todo'])
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // 當使用者在 input 輸入資料值即會觸發這個函數，發出 changeText action 並附上使用者輸入內容 event.target.value
+  // when user enters information to input, this function is triggered, sending out changeText action with user entered content as event.target.value
   onChangeText: (event) => (
     dispatch(changeText({ text: event.target.value }))
   ),
-  // 當使用者按下送出時，發出 createTodo action 並清空 input 
+  // when the user presses submit, sends out createTodo action and clears input
   onCreateTodo: () => {
     dispatch(createTodo());
     dispatch(changeText({ text: '' }));
@@ -59,7 +59,7 @@ export default connect(
 )(TodoHeader);
 ```
 
-以下是 `src/containers/TodoListContainer/TodoListContainer.js` 的部份：
+Below is the `src/containers/TodoListContainer/TodoListContainer.js` portion:
 
 ```javascript
 import { connect } from 'react-redux';
@@ -87,13 +87,13 @@ export default connect(
 
 ## Presentational Components
 
-以下是 `src/components/TodoHeader/TodoHeader.js` 的部份：
+Below is the `src/components/TodoHeader/TodoHeader.js` portion:
 
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// 開始建設 Component 並使用 connect 進來的 props 並綁定事件（onChange、onClick）。注意我們的 state 因為是使用 `ImmutableJS` 所以要用 `get()` 取值
+// Begin to construct Component and use  props sent in from connect to bind events (onChange, onClick). Pay note that because our state uses `ImmutableJS`, `get()` is used to extract values
 
 const TodoHeader = ({
   onChangeText,
@@ -103,21 +103,21 @@ const TodoHeader = ({
   <div>
     <h1>TodoHeader</h1>
     <input type="text" value={todo.get('text')} onChange={onChangeText} />
-    <button onClick={onCreateTodo}>送出</button>
+    <button onClick={onCreateTodo}>Submit</button>
   </div>
 );
 
 export default TodoHeader;
 ```
 
-以下是 `src/components/TodoList/TodoList.js` 的部份：
+Below is the `src/components/TodoList/TodoList.js` portion:
 
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Component 部分值的注意的是 todos state 是透過 map function 去迭代出元素，由於要讓 React JSX 可以渲染並保持傳入觸發 event state 的 immutable，所以需使用 toJS() 轉換 component of array。
-// 由 Component 傳進欲刪除元素的 index
+// The value we need to pay attention to under Component is todos state which uses map function to iterate over elements, because we want React JSX to render and maintain the immutability of the incoming event state, we use toJS() to convert our array.
+// Using Component to send in the index of the element we want to delete
 
 const TodoList = ({
   todos,
@@ -140,16 +140,16 @@ const TodoList = ({
 export default TodoList;
 ```
 
-## 總結
-That's it！透過區分 Container 與 Presentational Components 可以讓程式架構和職責更清楚了！接下來我們將運用我們所學實際開發兩個貼近生活的專案，讓讀者更加熟悉 React 生態系如何應用於實務上。
+## Summary
+That's it!Through the distinction of Container from Presentational Components our code architecture and division of tasks is even clearer! Next we will use what we have learned to develop two projects useful in day to day life, allowing readers to become even more familiar with the practical applications of the React ecosystem.
 
-## 延伸閱讀
+## Extended Reading
 1. [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.vtcuxsurv)
 2. [Redux Usage with React](http://redux.js.org/docs/basics/UsageWithReact.html)
 3. [React Higher Order Components in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#.r8srulpaj)
 4. [React higher order components](http://www.darul.io/post/2016-01-05_react-higher-order-components)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：Redux 實戰入門](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-redux-real-world-example.md) | [下一章：用 React + Router + Redux + ImmutableJS 寫一個 Github 查詢應用](https://github.com/kdchang/reactjs101/blob/master/Ch09/react-router-redux-github-finder.md) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) | [Previous article: Redux Real World Example](https://github.com/sycherng/reactjs101/blob/en-US/Ch07/react-redux-real-world-example.md) | [Next article: using React + Router + Redux + ImmutableJS to write a Github search application](https://github.com/sycherng/reactjs101/blob/en-US/Ch09/react-router-redux-github-finder.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [Corrections, questions, or requests](https://github.com/kdchang/reactjs101/issues) |

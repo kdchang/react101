@@ -1,6 +1,6 @@
-# Ch08 Container 與 Presentational Components
+# Ch08 Container and Presentational Components
 
-1. [Container 與 Presentational Components 入門](https://github.com/kdchang/reactjs101/blob/master/Ch08/container-presentational-component-.md)
+1. [Container and Presentational Components Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch08/container-presentational-component-.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

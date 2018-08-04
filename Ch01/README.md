@@ -1,7 +1,7 @@
-# Ch01 前端工程簡介和 React 生態系簡介
+# Ch01 Web Front-End Development Introduction and React Ecosystem Introduction
 
-1. [Web 前端工程入門簡介](https://github.com/kdchang/reactjs101/blob/master/Ch01/front-end-introduction.md)
-2. [React 生態系入門簡介](https://github.com/kdchang/reactjs101/blob/master/Ch01/react-ecosystem-introduction.md)
+1. [Web Front-End Development Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch01/front-end-introduction.md)
+2. [React Ecosystem Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch01/react-ecosystem-introduction.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

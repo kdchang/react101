@@ -10,7 +10,7 @@ const TodoHeader = (props) => (
       className="form-control"
       type="text"
     />
-    <button className="btn btn-lg" onClick={props.onAddTodo}>新增代辦事項</button>
+    <button className="btn btn-lg" onClick={props.onAddTodo}>new todo item</button>
   </div>
 );
 

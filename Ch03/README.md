@@ -1,7 +1,7 @@
-# Ch03 React/JSX/Component 簡介
+# Ch03 React/JSX/Component Introduction
 
-1. [ReactJS 與 Component 入門介紹](https://github.com/kdchang/reactjs101/blob/master/Ch03/reactjs-introduction.md)
-2. [JSX 簡明入門教學指南](https://github.com/kdchang/reactjs101/blob/master/Ch03/react-jsx-introduction.md)
+1. [ReactJS and Component Design Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch03/reactjs-introduction.md)
+2. [JSX Simple Starter Guide](https://github.com/sycherng/reactjs101/blob/en-US/Ch03/react-jsx-introduction.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

@@ -1,9 +1,9 @@
-# ImmutableJS 入門教學
+# ImmutableJS Introduction
 
 ![ImmutableJS](./images/immutable.png "ImmutableJS")
 
-## 前言
-一般來說在 JavaScript 中有兩種資料類型：Primitive（String、Number、Boolean、null、undefinded）和 Object（Reference）。在 JavaScript 中物件的操作比起 Java 容易很多，但也因為相對彈性不嚴謹，所以產生了一些問題。在 JavaScript 中的 Object（物件）資料是 Mutable（可以變的），由於是使用 Reference 的方式，所以當修改到複製的值也會修改到原始值。例如下面的 `map2` 值是指到 `map1`，所以當 `map1` 值一改，`map2` 的值也會受影響。 
+## Foreword
+Usually in Javascript there are two data categories: Primitive (String, Number, Boolean, null, undefinded) and Object (Reference). In JavaScript the manipulation of objects is a lot easier than in Java, yet as a result of the relative flexability and permissive nature, some problems are created. In JavaScript Object data is mutable, due to the use of Reference method, therefore editing a cloned value will inadvertently alter the source value. An example is shown below where `map2`'s value points to `map1`, so once the value of `map1` is changed, `map2`'s value is also impacted.
 
 ```javascript
 var map1 = { a: 1 }; 
@@ -11,11 +11,11 @@ var map2 = map1;
 map2.a = 2
 ```
 
-通常一般作法是使用 `deepCopy` 來避免修改，但這樣作法會產生較多的資源浪費。為了很好的解決這個問題，我們可以使用 `Immutable Data`，所謂的 Immutable Data 就是一旦建立，就不能再被修改的數據資料。
+Usually this is avoided with `deepCopy`, but this strategy wastes a lot of resources. In order to have a better solution, we can make use of `Immutable Data`, the meaning of Immutable Data is data that upon establishment, can no longer be altered.
 
-為了解決這個問題，在 2013 年時 Facebook 工程師 Lee Byron 打造了 [ImmutableJS](https://facebook.github.io/immutable-js/)，但並沒有被預設放到 React 工具包中（雖然有提供簡化的 Helper），但 `ImmutableJS` 的出現確實解決了 `React` 甚至 `Redux` 所遇到的一些問題。
+In order to solve this problem, in 2013 Facebook developer Lee Byron created [ImmutableJS](https://facebook.github.io/immutable-js/), but this did not get included by default in the React kit (although there is a simplified Helper), but the appearance of `ImmutableJS` in fact solved problems encountered in `React`, even `Redux`.
 
-以下範例即是引入了 `ImmutableJS` 的效果，讀者可以發現，雖然我們操作了 `map1` 的值，但會發現原本的 `map1` 並未受到影響（因為任何修改都不會影響到原始資料），雖然使用 `deepCopy` 也可以模擬類似的效果但會浪費過多的計算資源和記憶體，`ImmutableJS` 則可以容易地共享沒有被修該到的資料（例如下面的資料 `b` 即為 `map1` 所 `map2` 共享），因而有更好的效能表現。 
+The example below uses the effect of `ImmutableJS`, the reader may discover although we made changes to the value of `map1`, the original source value is not affected (because no changes will affect the source data), although the use of `deepCopy` creates a similar effect, it also creates a large amount of processing resources and memory, instead `ImmutableJS` easily shares unaltered data (for example below the data `b` is shared between `map1` and `map2`), permitting better performance. 
 
 ```javascript
 import Immutable from 'immutable';
@@ -27,73 +27,73 @@ map1.get('a'); // 1
 map2.get('a'); // 2
 ```
 
-## ImmutableJS 特性介紹
-ImmutableJS 提供了 7 種不可修改的資料類型：`List`、`Map`、`Stack`、`OrderedMap`、`Set`、`OrderedSet`、`Record`。若是對 Immutable 物件操作都會回傳一個新值。其中比較常用的有 `List`、`Map` 和 `Set`：
+## ImmutableJS Characteristics Intro
+ImmutableJS provides 7 kinds of immutable data types: `List`, `Map`, `Stack`, `OrderedMap`, `Set`, `OrderedSet`, `Record`. Any operations on Immutable objects will return a new value. Among these the more commonly used ones are `List`, `Map` and `Set`:
 
-1. Map：類似於 key/value 的 object，在 ES6 也有原生 `Map` 對應
+1. Map: an object with key/value, in ES6 it corresponds to native `Map`
 
   ```javascript
   const Map= Immutable.Map;
   
-  // 1. Map 大小
+  // 1. Map size
   const map1 = Map({ a: 1 });
   map1.size
   // => 1
 
-  // 2. 新增或取代 Map 元素
+  // 2. Create or replace a Map key
   // set(key: K, value: V)
   const map2 = map1.set('a', 7);
   // => Map { "a": 7 }
 
-  // 3. 刪除元素
+  // 3. delete key
   // delete(key: K)
   const map3 = map1.delete('a');
   // => Map {}
 
-  // 4. 清除 Map 內容
+  // 4. clear map content
   const map4 = map1.clear();
   // => Map {}
 
-  // 5. 更新 Map 元素
+  // 5. update Map key
   // update(updater: (value: Map<K, V>) => Map<K, V>)
   // update(key: K, updater: (value: V) => V)
   // update(key: K, notSetValue: V, updater: (value: V) => V)
   const map5 = map1.update('a', () => (7))
   // => Map { "a": 7 }
 
-  // 6. 合併 Map 
+  // 6. merge Maps
   const map6 = Map({ b: 3 });
   map1.merge(map6);
   // => Map { "a": 1, "b": 3 }
   ```
 
-2. List：有序且可以重複值，對應於一般的 Array
+2. List: ordered and allows duplicate values, corresponds to normal Arrays
 
   ```javascript
   const List= Immutable.List;
   
-  // 1. 取得 List 長度
+  // 1. Get List length
   const arr1 = List([1, 2, 3]);
   arr1.size
   // => 3
 
-  // 2. 新增或取代 List 元素內容
+  // 2. Create or replace List elements
   // set(index: number, value: T)
-  // 將 index 位置的元素替換
+  // swap elements by indices
   const arr2 = arr1.set(-1, 7);
   // => [1, 2, 7]
   const arr3 = arr1.set(4, 0);
   // => [1, 2, 3, undefined, 0]
 
-  // 3. 刪除 List 元素
+  // 3. deleting elements
   // delete(index: number)
-  // 刪除 index 位置的元素
+  // delete an element at a certain index
   const arr4 = arr1.delete(1);
   // => [1, 3]
 
-  // 4. 插入元素到 List
+  // 4. insert element into List
   // insert(index: number, value: T)
-  // 在 index 位置插入 value
+  // insert value at index
   const arr5 = arr1.insert(1, 2);
   // => [1, 2, 2, 3]
 
@@ -103,41 +103,41 @@ ImmutableJS 提供了 7 種不可修改的資料類型：`List`、`Map`、`Stack
   // => []
   ```
 
-3. Set：沒有順序且不能重複的列表
+3. Set: unordered and no duplicate elements allowed
 
   ```javascript
   const Set= Immutable.Set;
   
-  // 1. 建立 Set
+  // 1. create Set
   const set1 = Set([1, 2, 3]);
   // => Set { 1, 2, 3 }
 
-  // 2. 新增元素
+  // 2. add new element
   const set2 = set1.add(1).add(5);
   // => Set { 1, 2, 3, 5 } 
-  // 由於 Set 為不能重複集合，故 1 只能出現一次
+  // because Set prohibits duplicate elements, 1 only appears once
 
-  // 3. 刪除元素
+  // 3. delete an element
   const set3 = set1.delete(3);
   // => Set { 1, 2 }
 
-  // 4. 取聯集
+  // 4. union
   const set4 = Set([2, 3, 4, 5, 6]);
   set1.union(set4);
   // => Set { 1, 2, 3, 4, 5, 6 }
 
-  // 5. 取交集
+  // 5. intersection
   set1.intersect(set4);
   // => Set { 2, 3 }
 
-  // 6. 取差集
+  // 6. except
   set1.subtract(set4);
   // => Set { 1 }
   ```
 
-## ImmutableJS 的特性整理
+## ImmutableJS characteristics summary
 1. Persistent Data Structure
-  在 `ImmutableJS` 的世界裡，只要資料一被創建，就不能修改，維持 `Immutable`。就不會發生下列的狀況：
+  In the world of `ImmutableJS`, once data is created it cannot be mutated, it remains `Immutable`. This prevents the below situation:
 
   ```javascript
   var obj = {
@@ -145,13 +145,13 @@ ImmutableJS 提供了 7 種不可修改的資料類型：`List`、`Map`、`Stack
   };
 
   funcationA(obj);
-  console.log(obj.a) // 不確定结果為多少？
+  console.log(obj.a) // unsure of the resulting value
   ```
 
-  使用 `ImmutableJS` 就沒有這個問題：
+  Using `ImmutableJS` eliminates this problem:
 
   ```javascript
-  // 有些開發者在使用時會在 ``Immutable` 變數前加 `$` 以示區隔。
+  // some developers will prepend a `$` before `Immutable` variables to allow differentiation.
 
   const $obj = fromJS({
    a: 1
@@ -162,7 +162,7 @@ ImmutableJS 提供了 7 種不可修改的資料類型：`List`、`Map`、`Stack
   ```
 
 2. Structural Sharing
-  為了維持資料的不可變，又要避免像 `deepCopy` 一樣複製所有的節點資料而造成的資源損耗，在 `ImmutableJS` 使用的是 Structural Sharing 特性，亦即如果物件樹中一個節點發生變化的話，只會修改這個節點和和受它影響的父節點，其他節點則共享。
+  In order to maintain data structure immutability, as well as avoiding `deepCopy`-esque methods where every node's data is copied and creates a waste of resources, `ImmutableJS` makes use of Structural Sharing, meaning if a node within the object tree is altered, only that node and the parent nodes affected by it are edited, everything else is shared.
 
   ```javascript
   const obj = {
@@ -189,36 +189,36 @@ ImmutableJS 提供了 7 種不可修改的資料類型：`List`、`Map`、`Stack
   // -3
   ```
 
-4. 豐富的 API 並提供快速轉換原生 JavaScript 的方式
-  在 ImmutableJS 中可以使用 `fromJS()`、`toJS()` 進行 JavaScript 和 ImmutableJS 之間的轉換。但由於在轉換之間會非常耗費資源，所以若是你決定引入 `ImmutableJS` 的話請盡量維持資料處在 `Immutable` 的狀態。
+4. A rich API that also provides a method for quick conversion to source JavaScript
+  In ImmutableJS `fromJS()` and `toJS()` may be used to commence conversion between JavaScript and ImmutableJS. But because the conversion process is resource intensive, if you have decided to import `ImmutableJS` please try to keep data structures in an `Immutable` state.
 
-5. 支持 Functional Programming
-  `Immutable` 本身就是 Functional Programming（函數式程式設計）的概念，所以在 `ImmutableJS` 中可以使用許多 Functional Programming 的方法，例如：`map`、`filter`、`groupBy`、`reduce`、`find`、`findIndex` 等。
+5. Support of Functional Programming
+  `Immutable` inherently uses Functional Programming concepts, so in `ImmutableJS` many Functional Programming syntaxes are supported, for example: `map`, `filter`, `groupBy`, `reduce`, `find`, `findIndex` etc.
 
-6. 容易實現 Redo/Undo 歷史回顧
+6. Easily Redo/Undo history
 
-## React 效能優化
-`ImmutableJS` 除了可以和 `Flux/Redux` 整合外，也可以用於基本 react 效能優化。以下是一般使用效能優化的簡單方式：
+## React performance optimization
+`ImmutableJS` not only helps with `Flux/Redux` integration, it optimizes the performance of basic react. Below is an easy way to optimize React performance:
 
-傳統 JavaScript 比較方式，若資料型態為 Primitive 就不會有問題：
+Traditional JavaScript comparison method, if the data type is Primitive there will be no problem:
 
 ```javascript
-// 在 shouldComponentUpdate 比較接下來的 props 是否一致，若相同則不重新渲染，提昇效能
+// shouldComponentUpdate compares the current prop with the next, if it is the same no re-rendering takes place, improving performance
 shouldComponentUpdate (nextProps) {
     return this.props.value !== nextProps.value;
 }
 ```
 
-但當比較的是物件的話就會出現問題：
+If objects are being compared there will be a problem:
 
 ```javascript
-// 假設 this.props.value 為 { foo: 'app' }
-// 假設 nextProps.value 為 { foo: 'app' },
-// 雖然兩者值是一樣，但由於 reference 位置不同，所以視為不同。但由於值一樣應該要避免重複渲染
+// Let this.props.value be { foo: 'app' }
+// Let nextProps.value be { foo: 'app' },
+// Although both have the same value, but as the referenced location is different, they count as being different. But because the values are identical re-rendering should be avoided
 this.props.value !== nextProps.value; // true
 ```
 
-使用 `ImmutableJS`：
+Using `ImmutableJS`:
 
 ```javascript
 var SomeRecord = Immutable.Record({ foo: null });
@@ -227,7 +227,7 @@ var y = x.set('foo', 'azz');
 x === y; // false
 ```
 
-在 ES6 中可以使用官方文件上的 `PureRenderMixin` 進行比較，可以讓程式碼更簡潔：
+In ES6 we can use the officially provided `PureRenderMixin` for comparison operations, resulting in cleaner code:
 
 ```javascript
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -242,23 +242,23 @@ class FooComponent extends React.Component {
 }
 ```
 
-## 總結
-雖然 `ImmutableJS` 的引入可以帶來許多好處和效能的提升但由於引入整體檔案較大且較具侵入性，在引入之前可以自行評估看看是否合適於目前的專案。接下來我們將在後面的章節講解如何將 `ImmutableJS` 和 `Redux` 整合應用到實務上的範例。 
+## Summary
+Although `ImmutableJS` importation can bring many benefits and increases in performance, the overall file size becomes larger and it is invasive, one should evaluate the suitability for the current project prior to importing. In the next chapter we will discuss how to integrate `ImmutableJS` with `Redux` using a practical application as example.
 
-## 延伸閱讀
-1. [官方網站](https://facebook.github.io/immutable-js/)
-2. [Immutable.js初识](http://www.w3cplus.com/javascript/immutable-js.html)
-3. [Immutable 详解及 React 中实践](https://github.com/camsong/blog/issues/3)
-4. [为什么需要Immutable.js](http://zhenhua-lee.github.io/react/Immutable.html)
-5. [facebook immutable.js 意义何在，使用场景？](https://www.zhihu.com/question/28016223)
-6. [React 巢狀 Component 效能優化](https://blog.wuct.me/react-%E5%B7%A2%E7%8B%80-component-%E6%95%88%E8%83%BD%E5%84%AA%E5%8C%96-b01d8a0d3eff#.3kf4h1xq1)
+## Extended Reading
+1. [Official Website](https://facebook.github.io/immutable-js/)
+2. [Immutable.js Initial Knowledge](http://www.w3cplus.com/javascript/immutable-js.html)
+3. [Immutable in-depth explanation and putting to practice in React](https://github.com/camsong/blog/issues/3)
+4. [Why is Immutable.js needed](http://zhenhua-lee.github.io/react/Immutable.html)
+5. [facebook immutable.js purpose, when to use?](https://www.zhihu.com/question/28016223)
+6. [React nested Component performance optimization](https://blog.wuct.me/react-%E5%B7%A2%E7%8B%80-component-%E6%95%88%E8%83%BD%E5%84%AA%E5%8C%96-b01d8a0d3eff#.3kf4h1xq1)
 7. [PureRenderMixin](https://facebook.github.io/react/docs/pure-render-mixin.html)
 8. [seamless-immutable](https://github.com/rtfeldman/seamless-immutable)
 9. [Immutable Data Structures and JavaScript](http://jlongster.com/Using-Immutable-Data-Structures-in-JavaScript)
 
-（image via [risingstack](https://risingstack-blog.s3.amazonaws.com/2016/Jan/immutable_logo_for_react_js_best_practices-1453211749818.png)）
+(image via [risingstack](https://risingstack-blog.s3.amazonaws.com/2016/Jan/immutable_logo_for_react_js_best_practices-1453211749818.png))
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：React Router 入門實戰教學](https://github.com/kdchang/reactjs101/blob/master/Ch05/react-router-introduction.md) | [下一章：Flux 基礎概念與實戰入門](https://github.com/kdchang/reactjs101/blob/master/Ch07/react-flux-introduction.md) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) | [Previous article: Learn by Writing: React Router Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch05/react-router-introduction.md) | [Next article: Flux Basic Concept and Putting to Practice](https://github.com/sycherng/reactjs101/blob/en-US/Ch07/react-flux-introduction.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [Corrections, questions, or requests](https://github.com/kdchang/reactjs101/issues) |

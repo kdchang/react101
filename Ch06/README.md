@@ -1,6 +1,6 @@
 # Ch06 ImmutableJS
 
-1. [ImmutableJS 入門教學](https://github.com/kdchang/reactjs101/blob/master/Ch06/react-immutable-introduction.md)
+1. [ImmutableJS Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch06/react-immutable-introduction.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101) |

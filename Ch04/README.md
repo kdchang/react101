@@ -1,7 +1,7 @@
-# Ch04 Props/State 基礎與 Component 生命週期
+# Props/State Basics and Component Lifecycles
 
-1. [Props、State、Refs 與表單處理](https://github.com/kdchang/reactjs101/blob/master/Ch04/props-state-introduction.md)
-2. [React Component 規格與生命週期（Life Cycle）](https://github.com/kdchang/reactjs101/blob/master/Ch04/react-component-life-cycle.md)
+1. [Props, State, Refs and form handling](https://github.com/sycherng/reactjs101/blob/en-US/Ch04/props-state-introduction.md)
+2. [React Component Specification and Life Cycle](https://github.com/sycherng/reactjs101/blob/en-US/Ch04/react-component-life-cycle.md)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) |

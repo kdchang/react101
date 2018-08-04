@@ -1,18 +1,19 @@
-# 用 React + Redux + Node（Isomorphic JavaScript）開發食譜分享網站
+# Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website
 
-## 前言
-如果你是從一開始跟著我們踏出 React 旅程的讀者真的恭喜你，也謝謝你一路跟著我們的學習腳步，對一個初學者來說這一段路並不容易。本章是扣除附錄外我們最後一個正式章節的範例，也是規模最大的一個，在這個章節中我們要整合過去所學和添加一些知識開發一個可以登入會員並分享食譜的社群網站，Les's GO！
+## Foreword
+If you are a reader that has accompanied us on this React journey from ths start congratulations, and thank you for following our steps of learning, for a beginner this road is not easy. This article is the final formal article with example aside from the appendix, it is also the largest in scale, in this article we will integrate everything we have learned and add some knowledge to develop
+ a recipe sharing community website with member login, let's GO!
 
-## 需求規劃
-讓使用者可以登入會員並分享食譜的社群網站
+## Requirement planning
+A community website that allows members to log in and share recipes.
 
-## 功能規劃
+## Feature planning
 1. React Router / Redux / Immutable / Server Render / Async API
-2. 使用者登入/登出（JSON Web Token）
-3. CRUD 表單資料處理
-4. 資料庫串接(ORM/MongoDB)
+2. User login/logout (JSON Web Token)
+3. CRUD form handling
+4. Connection to database (ORM/MongoDB)
 
-## 使用技術
+## Technologies used
 1. React
 2. Redux(redux-actions/redux-promise/redux-immutable)
 3. React Router
@@ -24,20 +25,20 @@
 9. Webpack
 10. UUID
 
-## 專案成果截圖
+## Project result screenshots
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-1.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-1.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-2.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-2.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-3.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-3.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-4.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-4.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-## 環境安裝與設定
-1. 安裝 Node 和 NPM
+## Environment installation and configuration
+1. Install Node and NPM
 
-2. 安裝所需套件
+2. Install needed packages
 
 ```
 $ npm install --save react react-dom redux react-redux react-router immutable redux-immutable redux-actions redux-promise bcrypt body-parser cookie-parser debug express immutable jsonwebtoken mongoose morgan passport passport-local react-router-bootstrap axios serve-favicon validator uuid
@@ -47,9 +48,9 @@ $ npm install --save react react-dom redux react-redux react-router immutable re
 $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-1 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server redux-logger
 ```
 
-接下來我們先設定一下開發文檔。
+Next we will configure our development files.
 
-1. 設定 Babel 的設定檔： `.babelrc`
+1. Configure Babel settings file: `.babelrc`
 
 	```javascript
 	{
@@ -62,7 +63,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 
 	```
 
-2. 設定 ESLint 的設定檔和規則： `.eslintrc`
+2. Configure ESLint settings file and rules: `.eslintrc`
 
 	```javascript
 	{
@@ -76,7 +77,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	}
 	```
 
-3. 設定 Webpack 設定檔： `webpack.config.js`：
+3. Configure Webpack settings file: `webpack.config.js`:
 
 	```javascript
 	import webpack from 'webpack';
@@ -99,7 +100,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	        exclude: /bundle\.js$/,
 	      },
 	    ],
-	    // 使用 Hot Module Replacement 外掛
+	    // Use Hot Module Replacement plugins
 	    plugins: [
 	      new webpack.optimize.OccurrenceOrderPlugin(),
 	      new webpack.HotModuleReplacementPlugin()
@@ -116,7 +117,7 @@ $ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es201
 	};
 	```
 
-4. 設定 `src/server/config/index.js`：
+4. Configure `src/server/config/index.js`:
 
 ```javascript
 export default ({
@@ -125,15 +126,15 @@ export default ({
 });
 ```	
 
-太好了！這樣我們就完成了開發環境的設定可以開始動手實作我們的食譜分享社群應用程式了！	
+Awesome! This concludes our environment settings and allows us to get started on our community recipe sharing app!	
 
-同時我們也初步設計我們資料夾結構，主要我們將資料夾分為 `client`、`common`、`server`：
+At the same time we will begin designing our folder structure, we will mainly divide the directories as `client`, `common`, `server`:
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-folder.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-folder.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-## 動手實作
+## Putting to practice
 
-首先我們先進行 `src/client/index.js` 的設計：
+First we will design `src/client/index.js`:
 
 ```javascript
 import React from 'react';
@@ -141,15 +142,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { browserHistory, Router } from 'react-router';
 import { fromJS } from 'immutable';
-// 我們的 routing 放置在 common 資料夾中的 routes
+// We placed routing in routes under common directory
 import routes from '../common/routes';
 import configureStore from '../common/store/configureStore';
 import { checkAuth } from '../common/actions';
 
-// 將 server side 傳過來的 initialState 給 rehydration（覆水）
+// Rehydrate the initialState sent from server side
 const initialState = window.__PRELOADED_STATE__;
 
-// 將 initialState 傳給 configureStore 函數創建出 store 並傳給 Provider
+// Send initialState to configureStore function to build a store and send to Provider
 const store = configureStore(fromJS(initialState));
 ReactDOM.render(
   <Provider store={store}>
@@ -159,7 +160,7 @@ ReactDOM.render(
 );
 ```
 
-由於 Node 端要到新版對於 ES6 支援較好，所以先用 `babel-register` 在 `src/server/index.js` 去即時轉譯 `server.js`，但不建議在 `production` 環境使用。
+Because Node-side needs latest version for better ES6 support, use `babel-register` in `src/server/index.js` to translate `server.js`, however this is not recommended for `production` environments.
 
 ```javascript
 // use babel-register to precompile ES6 
@@ -168,7 +169,7 @@ require('./server');
 ```
 
 ```javascript
-// 引入 Express、mongoose（MongoDB ORM）以及相關 server 上使用的套件
+// Import Express, mongoose (MongoDB ORM) and related serve packages
 /* Server Packages */
 import Express from 'express';
 import bodyParser from 'body-parser';
@@ -176,11 +177,11 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import config from './config';
-// 引入後端 model 透過 model 和資料庫互動 
+// import back-end model, communicate with database via model 
 import User from './models/user';
 import Recipe from './models/recipe';
 
-// 引入 webpackDevMiddleware 當做前端 server middleware
+// import webpackDevMiddleware as server middleware for front-end
 /* Client Packages */
 import webpack from 'webpack';
 import React from 'react';
@@ -197,13 +198,13 @@ import configureStore from '../common/store/configureStore';
 import fetchComponentData from '../common/utils/fetchComponentData';
 import apiRoutes from './controllers/api.js';
 /* config */
-// 初始化 Express server
+// Initialize Express server
 const app = new Express();
 const port = process.env.PORT || 3000;
-// 連接到資料庫，相關設定檔案放在 config.database
+// Connect to database, place related files in config.database
 mongoose.connect(config.database); // connect to database
 app.set('env', 'production');
-// 設定靜態檔案位置
+// Configure static file location
 app.use('/static', Express.static(__dirname + '/public'));
 app.use(cookieParser());
 // use body parser so we can get info from POST and/or URL parameters
@@ -212,7 +213,7 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
-// 負責每次接受到 request 的處理函數，判斷該如何處理和取得 initialState 整理後結合伺服器渲染頁面傳往前端
+// the function which handles every received request, discerns how to process and acquire initialState and sends integrated server UI rendering page to front-end
 const handleRender = (req, res) => {
   // Query our mock API asynchronously
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -245,7 +246,7 @@ const handleRender = (req, res) => {
           isEdit: false,
         }
       });
-      // server side 渲染頁面
+      // server side render page
       // Create a new Redux store instance
       const store = configureStore(initialState);
       const initView = renderToString(
@@ -261,12 +262,12 @@ const handleRender = (req, res) => {
   })
 }
 
-// 基礎頁面 HTML 設計
+// Basic page HTML design
 const renderFullPage = (html, preloadedState) => (`
     <!doctype html>
     <html>
       <head>
-        <title>OpenCook 分享料理的美好時光</title>
+        <title>OpenCook Share recipes and good times</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
         <!-- Optional theme -->
@@ -282,14 +283,14 @@ const renderFullPage = (html, preloadedState) => (`
     </html>`
 );
 
-// 設定 hot reload middleware
+// Configure hot reload middleware
 const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
 app.use(webpackHotMiddleware(compiler));
 
-// 設計 API prefix，並使用 controller 中的 apiRoutes 進行處理
+// Design API prefix, and use controller apiRoutes to process
 app.use('/api', apiRoutes);  
-// 使用伺服器端 handleRender 
+// Using server-side handleRender 
 app.use(handleRender);
 app.listen(port, (error) => {
   if (error) {
@@ -300,7 +301,7 @@ app.listen(port, (error) => {
 });
 ```
 
-由於 Node 端要到新版對於 ES6 支援較好，所以先用 `babel-register` 在 `src/server/index.js` 去即時轉譯 `server.js`，但目前不建議在 `production` 環境使用。
+Because Node-side needs latest version for better ES6 support, use `babel-register` in `src/server/index.js` to translate `server.js`, however this is not recommended for `production` environments.
 
 ```javascript
 // use babel-register to precompile ES6 syntax
@@ -308,14 +309,14 @@ require('babel-register');
 require('./server');
 ```
 
-現在我們來設計一下我們資料庫的 Schema，在這邊我們使用 MongoDB 的 ORM Mongoose，可以方便我們使用物件方式進行資料庫的操作：
+Now we design our database Schema, here we use a MongoDB ORM Mongoose, it allows for convenient object-oriented database operations:
 
 ```javascript
-// 引入 mongoose 和 Schema
+// Import mongoose and Schema
 import mongoose, { Schema } from 'mongoose';
 
-// 使用 mongoose.model 建立新的資料表，並將 Schema 傳入
-// 這邊我們設計了食譜分享的一些基本要素，包括名稱、描述、照片位置等
+// Use mongoose.model to create a new directory, and import Schema
+// Here we designed the essential factors for recipe sharing, including name, description, photo path etc
 export default mongoose.model('Recipe', new Schema({ 
     id: String,
     name: String, 
@@ -327,11 +328,11 @@ export default mongoose.model('Recipe', new Schema({
 ```
 
 ```javascript
-// 引入 mongoose 和 Schema
+// Import mongoose and Schema
 import mongoose, { Schema } from 'mongoose';
 
-// 使用 mongoose.model 建立新的資料表，並將 Schema 傳入
-// 這邊我們設計了使用者的一些基本要素，包括名稱、描述、照片位置等
+// Use mongoose.model to create a new table, importing Schema
+// Here we designed some basic elements for users, including name, description, photo path etc
 export default mongoose.model('User', new Schema({ 
     id: Number,
     username: String, 
@@ -341,13 +342,13 @@ export default mongoose.model('User', new Schema({
 }));
 ```
 
-為了方便維護，我們把 API 的部份統一在 `src/server/controllers/api.js` 進行管理，這部份會涉及比較多 Node 和 mongoose 的操作，若讀者尚不熟悉可以參考 [mongoose 官網](http://mongoosejs.com/)
+For convenient maintenance, we placed API in `src/server/controllers/api.js`，this part will use more Node and mongoose operations, if the user is not familar please refer to [mongoose official webpage](http://mongoosejs.com/)
 
 ```javascript
 import Express from 'express';
-// 引入 jsonwebtoken 套件 
+// import jsonwebtoken package
 import jwt from 'jsonwebtoken';
-// 引入 User、Recipe Model 方便進行資料庫操作
+// import User, Recipe Model for convenient database operations
 import User from '../models/user';
 import Recipe from '../models/recipe';
 import config from '../config';
@@ -355,9 +356,9 @@ import config from '../config';
 // API Route
 const app = new Express();
 const apiRoutes = Express.Router();
-// 設定 JSON Web Token 的 secret variable
+// configure secret variable for JSON Web Token
 app.set('superSecret', config.secret); // secret variable
-// 使用者登入 API ，依據使用 email 和 密碼去驗證，若成功則回傳一個認證 token（時效24小時）我們把它存在 cookie 中，方便前後端存取。這邊我們先不考慮太多資訊安全的議題
+// User login API, validated with email and password, if successful returns a validation token (good for 24 hours) we save it in cookie, so it is convenient for front- and back-end to save and access. Here we will not make too many considerations for information security related topics
 apiRoutes.post('/login', function(req, res) {
   // find the user
   User.findOne({
@@ -377,7 +378,7 @@ apiRoutes.post('/login', function(req, res) {
           expiresIn: 60 * 60 * 24 // expires in 24 hours
         });
         // return the information including token as JSON
-        // 若登入成功回傳一個 json 訊息
+        // If successfully logged in return a json message
         res.json({
           success: true,
           message: 'Enjoy your token!',
@@ -388,7 +389,7 @@ apiRoutes.post('/login', function(req, res) {
     }
   });
 });
-// 初始化 api，一開始資料庫尚未建立任何使用者，我們需要在瀏覽器輸入 `http://localhost:3000/api/setup`，進行資料庫初始化。這個動作將新增一個使用者、一份食譜，若是成功新增將回傳一個 success 訊息
+// Initialize api, at the start the database has not created any users, we must input `http://localhost:3000/api/setup` in our browser, to initialize our database. This action creates a new user, a recipe, and if sucessful returns a success message
 apiRoutes.get('/setup', (req, res) => {
   // create a sample user
   const sampleUser = new User({ 
@@ -399,10 +400,10 @@ apiRoutes.get('/setup', (req, res) => {
   });
   const sampleRecipe = new Recipe({
     id: '110ec58a-a0f2-4ac4-8393-c866d813b8d1',
-    name: '番茄炒蛋', 
-    description: '番茄炒蛋，一道非常經典的家常菜料理。雖然看似普通，但每個家庭都有屬於自己家裡的不同味道', 
+    name: 'tomato stir-fried with eggs', 
+    description: 'tomato stir-fried with eggs, a classic household dish. Although it looks commonplace, every family gives an unique spin to the flavour', 
     imagePath: 'https://c1.staticflickr.com/6/5011/5510599760_6668df5a8a_z.jpg',
-    steps: ['放入番茄', '打個蛋', '放入少許鹽巴', '用心快炒'],
+    steps: ['add tomatoes', 'beat an egg', 'add a touch of salt', 'diligently and swiftly stir-fry'],
     updatedAt: new Date()
   });
   // save the sample user
@@ -415,7 +416,7 @@ apiRoutes.get('/setup', (req, res) => {
     })
   });
 });
-// 回傳所有 recipes
+// return all recipes
 apiRoutes.get('/recipes', (req, res) => {
   Recipe.find({}, (err, recipes) => {
     res.status(200).json(recipes);
@@ -423,10 +424,10 @@ apiRoutes.get('/recipes', (req, res) => {
 });
 
 // route middleware to verify a token
-// 接下來的 api 將進行控管，也就是說必須在網址請求中夾帶認證 token 才能完成請求
+// next the api will handle access control, in other words the web request must include the validation token before the request is handled
 apiRoutes.use((req, res, next) => {
   // check header or url parameters or post parameters for token
-  // 確認標頭、網址或 post 參數是否含有 token，本範例因為簡便使用網址 query 參數 
+  // confirm headers, url or post parameters for token, this example uses query parameter for convenience 
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
   // decode token
   if (token) {
@@ -449,20 +450,20 @@ apiRoutes.use((req, res, next) => {
     });
   }
 });
-// 確認認證是否成功
+// confirm whether authentication succeeded
 apiRoutes.get('/authenticate', (req, res) => {
   res.json({
     success: true,
     message: 'Enjoy your token!',
   });
 });
-// create recipe 新增食譜
+// create recipe
 apiRoutes.post('/recipes', (req, res) => {
   const newRecipe = new Recipe({
     name: req.body.name, 
     description: req.body.description, 
     imagePath: req.body.imagePath,
-    steps: ['放入番茄', '打個蛋', '放入少許鹽巴', '用心快炒'],
+    steps: ['add tomatoes', 'beat an egg', 'add a touch of salt', 'diligently and swiftly stir-fry'],
     updatedAt: new Date()
   });
   newRecipe.save((err) => {
@@ -471,13 +472,13 @@ apiRoutes.post('/recipes', (req, res) => {
     res.json({ success: true });      
   });
 }); 
-// update recipe 根據 _id（mongodb 的 id）更新食譜
+// update recipe according to _id (mongodb id)
 apiRoutes.put('/recipes/:id', (req, res) => {
   Recipe.update({ _id: req.params.id }, {
     name: req.body.name, 
     description: req.body.description, 
     imagePath: req.body.imagePath,
-    steps: ['放入番茄', '打個蛋', '放入少許鹽巴', '用心快炒'],
+    steps: ['add tomatoes', 'beat an egg', 'add a touch of salt', 'diligently and swiftly stir-fry'],
     updatedAt: new Date()
   } ,(err) => {
     if (err) throw err;
@@ -485,7 +486,7 @@ apiRoutes.put('/recipes/:id', (req, res) => {
     res.json({ success: true });      
   });
 });
-// remove recipe 根據 _id 刪除食譜，若成功回傳成功訊息
+// remove recipe according to _id, if success return success message
 apiRoutes.delete('/recipes/:id', (req, res) => {
   Recipe.remove({ _id: req.params.id }, (err, recipe) => {
     if (err) throw err;
@@ -496,7 +497,7 @@ apiRoutes.delete('/recipes/:id', (req, res) => {
 export default apiRoutes;
 ```
 
-設定整個 App 的 routing，我們主要頁面有 `HomePageContainer`、`LoginPageContainer`、`SharePageContainer`，值得注意的是我們這邊使用 [Higher Order Components](http://www.darul.io/post/2016-01-05_react-higher-order-components) （Higher Order Components 為一個函數， 接收一個 Component 後在 Class Component 的 render 中 return 回傳入的 components）方式去確認使用者是否有登入，若有沒登入則不能進入分享食譜頁面，反之若已登入也不會再進到登入頁面：
+configure the routing for the entire App, our main page has `HomePageContainer`, `LoginPageContainer`, `SharePageContainer`, worth noting that here we use [Higher Order Components](http://www.darul.io/post/2016-01-05_react-higher-order-components) (Higher Order Components is a parameter where after receiving a Component, it is returned via the render method of the Class Component) method to confirm if a user has logged in, if not logged in they cannot go to the recipe sharing webpage, on the other hand if they have already logged in, they will no longer go to the login page:
 
 ```javascript
 import React from 'react';
@@ -516,7 +517,7 @@ export default (
 );
 ```
 
-設定行為常數（`src/constants/actionTypes.js`）：
+configure action constants (`src/constants/actionTypes.js`):
 
 ```javascript
 export const AUTH_START    = "AUTH_START";
@@ -535,7 +536,7 @@ export const UPDATE_RECIPE = 'UPDATE_RECIPE';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
 ```
 
-設定 `src/actions/recipeActions.js`，我們這邊使用 redux-promise，可以很容易使用非同步的行為 WebAPI：  
+Configure `src/actions/recipeActions.js`, here we use redux-promise, allowing us to easily use the asynchronously-behaving WebAPI:
 
 ```javascript
 import { createAction } from 'redux-actions';
@@ -556,7 +557,7 @@ export const deleteRecipe = createAction('DELETE_RECIPE', WebAPI.deleteRecipe);
 export const setRecipe = createAction('SET_RECIPE');
 ```
 
-設定 `src/actions/uiActions.js`：
+Configure `src/actions/uiActions.js`：
 
 ```javascript
 import { createAction } from 'redux-actions';
@@ -573,7 +574,7 @@ export const hideSpinner = createAction('HIDE_SPINNER');
 export const setUi = createAction('SET_UI');
 ```
 
-設定 `src/actions/userActions.js`，處理使用者登入登出等行為：
+Configure `src/actions/userActions.js`, handle user login and log out behaviour:
 
 ```javascript
 import { createAction } from 'redux-actions';
@@ -596,7 +597,7 @@ export const checkAuth = createAction('CHECK_AUTH');
 export const setUser = createAction('SET_USER');
 ```
 
-於 `scr/actions/index.js` 輸出 actions：
+From `scr/actions/index.js` export actions:
 
 ```javascript
 export * from './userActions';
@@ -604,24 +605,24 @@ export * from './recipeActions';
 export * from './uiActions';
 ```
 
-於 `scr/common/utils/fetchComponentData.js` 設定 server side 初始 fetchComponentData：
+From `scr/common/utils/fetchComponentData.js` configure server side initial fetchComponentData:
 
 ```javascript
-// 這邊使用 axios 方便進行 promises base request
+// here we use axios for convenient promises base requests
 import axios from 'axios';
-// 記得附加上我們存在 cookies 的 token  
+// remember to add the token we saved in cookies
 export default function fetchComponentData(token = 'token') {
   const promises = [axios.get('http://localhost:3000/api/recipes'), axios.get('http://localhost:3000/api/authenticate?token=' + token)];
   return Promise.all(promises);
 }
 ```
 
-於 `scr/common/utils/WebAPI.js` 所有前端 API 的處理：
+from `scr/common/utils/WebAPI.js` all front-end API handling:
 
 ```javascript
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-// 引入 uuid 當做食譜 id
+// import uuid as recipe id
 import uuid from 'uuid';
 
 import { 
@@ -631,7 +632,7 @@ import {
   completeLogout,
 } from '../actions';
 
-// getCookie 函數傳入 key 回傳 value
+// feed key parameter into getCookie and return value
 function getCookie(keyName) {
   var name = keyName + '=';
   const cookies = document.cookie.split(';');
@@ -648,7 +649,7 @@ function getCookie(keyName) {
 }
 
 export default {
-  // 呼叫後端登入 api
+  // call backend login api
   login: (dispatch, email, password) => {
     axios.post('/api/login', {
       email: email,
@@ -658,7 +659,7 @@ export default {
       if(response.data.success === false) {
         dispatch(authError()); 
         dispatch(hideSpinner());  
-        alert('發生錯誤，請再試一次！');
+        alert('Something went wrong, please try again!');
         window.location.reload();        
       } else {
         if (!document.cookie.token) {
@@ -676,13 +677,13 @@ export default {
       dispatch(authError());
     });
   },
-  // 呼叫後端登出 api  
+  // call backend logout api  
   logout: (dispatch) => {
     document.cookie = 'token=; ' + 'expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     dispatch(hideSpinner());  
     browserHistory.push('/'); 
   },
-  // 確認使用者是否登入    
+  // confirm whether user is logged in
   checkAuth: (dispatch, token) => {
     axios.post('/api/authenticate', {
       token: token,
@@ -698,7 +699,7 @@ export default {
       dispatch(authError());
     });
   },
-  // 取得目前所有食譜    
+  // get all current recipes   
   getRecipes: () => {
     axios.get('/api/recipes')
     .then((response) => {
@@ -706,7 +707,7 @@ export default {
     .catch((error) => {
     });
   },
-  // 呼叫新增食譜 api，記得附加上我們存在 cookies 的 token  
+  // call the recipe creation api, remember to add the token saved in our cookies
   addRecipe: (dispatch, name, description, imagePath) => {
     const id = uuid.v4();
     axios.post('/api/recipes?token=' + getCookie('token'), {
@@ -718,7 +719,7 @@ export default {
     .then((response) => {
       if(response.data.success === false) {
         dispatch(hideSpinner());  
-        alert('發生錯誤，請再試一次！');
+        alert('Something went wrong, please try again!');
         browserHistory.push('/share');         
       } else {
         dispatch(hideSpinner());  
@@ -729,7 +730,7 @@ export default {
     .catch(function (error) {
     });
   },
-  // 呼叫更新食譜 api，記得附加上我們存在 cookies 的 token  
+  // call update recipe remember to add the token we saved in cookies  
   updateRecipe: (dispatch, recipeId, name, description, imagePath) => {
     axios.put('/api/recipes/' + recipeId + '?token=' + getCookie('token'), {
       id: recipeId,
@@ -742,7 +743,7 @@ export default {
         dispatch(hideSpinner());  
         dispatch(setRecipe({ key: 'recipeId', value: '' }));
         dispatch(setUi({ key: 'isEdit', value: false }));
-        alert('發生錯誤，請再試一次！');
+        alert('Something went wrong, please try again!');
         browserHistory.push('/share');         
       } else {
         dispatch(hideSpinner());  
@@ -753,13 +754,13 @@ export default {
     .catch(function (error) {
     });
   },
-  // 呼叫刪除食譜 api，記得附加上我們存在 cookies 的 token  
+  // call recipe deletion api, remember to add the token we saved in cookies  
   deleteRecipe: (dispatch, recipeId) => {
     axios.delete('/api/recipes/' + recipeId + '?token=' + getCookie('token'))
     .then((response) => {
       if(response.data.success === false) {
         dispatch(hideSpinner());  
-        alert('發生錯誤，請再試一次！');
+        alert('Something went wrong, please try again!');
         browserHistory.push('/');         
       } else {
         dispatch(hideSpinner());  
@@ -773,7 +774,7 @@ export default {
 };
 ```
 
-接下來設定我們的 `reducers`，以下是 `src/common/reducers/data/recipeReducers.js`，`GET_RECIPES` 負責將後端 API 取得的所有食譜存放在 recipes 中：
+Next configure our `reducers`, below is `src/common/reducers/data/recipeReducers.js`, `GET_RECIPES` is responsible for getting all recipes from the server and placing it in `recipes`:
 
 ```javascript
 import { handleActions } from 'redux-actions';
@@ -799,7 +800,7 @@ const recipeReducers = handleActions({
 export default recipeReducers;
 ```
 
-以下是 `src/common/reducers/data/userReducers.js`，負責確認登入相關處理事項。注意的是由於登入是非同步執行，所以會有幾個階段的行為要做處理：
+Below is `src/common/reducers/data/userReducers.js`, responsible for confirming login related handling tasks, pay note because login is asynchronously executed, there are several stages of behaviours to handle:
 
 ```javascript
 import { handleActions } from 'redux-actions';
@@ -851,7 +852,7 @@ export default userReducers;
 
 ```
 
-以下是 `src/common/reducers/ui/uiReducers.js`，負責確認 UI State 相關處理：
+Below is `src/common/reducers/ui/uiReducers.js`, responsible for confirming UI State related tasks:
 
 
 ```javascript
@@ -885,7 +886,7 @@ const uiReducers = handleActions({
 export default uiReducers;
 ```
 
-最後把所有 recipes 在 `src/common/reducers/index.js` 使用 `combineReducers` 整合在一起，注意的是我們整個 App 的資料流要維持 immutable： 
+At last assemble all recipes with `combineReducers` in `src/common/reducers/index.js`, pay note our entire App data flow must remain  immutable:
 
 ```javascript
 import { combineReducers } from 'redux-immutable';
@@ -903,7 +904,7 @@ const rootReducer = combineReducers({
 export default rootReducer;
 ```
 
-以下是 `src/common/store/configureStore.js` 處理 store 的建立，這次我們使用了 `promiseMiddleware` 的 middleware：
+Below is `src/common/store/configureStore.js` responsible for store configuration, this time we used middleware from `promiseMiddleware`:
 
 ```javascript
 import { createStore, applyMiddleware } from 'redux';
@@ -925,7 +926,7 @@ export default function configureStore(preloadedState = initialState) {
 }
 ```
 
-經過一連串努力，我們來到了 View 的佈建。在這個 App 中我們主要會由一個 AppBar 負責所有頁面的導覽，也就是每個頁面都會有 AppBar 常駐在上面，然而上面的內容則會依 UI State 中的 isAuthorized 而有所不同。最後要留意的是我們使用了 React Bootstrapt 來建立 React Component。
+After a series of efforts, we come to the decorating of View. In this App we will mainly use one AppBar for page navigation, in other words every page will have an Appbar stationed at the top, however the content will differ according to isAuthorized in UI State. Lastly we should pay note that we used React Bootstrap to establish React Component.
 
 ```javascript
 import React from 'react';
@@ -950,13 +951,13 @@ const AppBar = ({
         isAuthorized === false ?
         (
           <Nav pullRight>
-            <LinkContainer to={{ pathname: '/login' }}><NavItem eventKey={2} href="#">登入</NavItem></LinkContainer>
+            <LinkContainer to={{ pathname: '/login' }}><NavItem eventKey={2} href="#">Login</NavItem></LinkContainer>
           </Nav>
         ) :
         (
           <Nav pullRight>
-            <NavItem eventKey={1} onClick={onToShare}>分享食譜</NavItem>
-            <NavItem eventKey={2} onClick={onLogout} href="#">登出</NavItem>
+            <NavItem eventKey={1} onClick={onToShare}>Share recipe</NavItem>
+            <NavItem eventKey={2} onClick={onLogout} href="#">Logout</NavItem>
           </Nav>
         )        
       }
@@ -967,7 +968,7 @@ const AppBar = ({
 export default AppBar;
 ```
 
-以下是 `src/common/containers/AppBarContainer/AppBarContainer.js`：
+Below is `src/common/containers/AppBarContainer/AppBarContainer.js`:
 
 ```javascript
 import React from 'react';
@@ -999,7 +1000,7 @@ export default connect(
 )(AppBar);
 ```
 
-以下是 `src/components/Main/Main.js`，透過 route 機制讓 AppBarContainer 可以成為整個 App 母模版：
+Below is `src/components/Main/Main.js`, via route mechanism we allow AppBarContainer to become the parent template for the entire App:
 
 ```javascript
 import React from 'react';
@@ -1017,7 +1018,7 @@ const Main = (props) => (
 export default Main;
 ```
 
- 在 `checkAuth` 這個 Component 中，我們使用到了 Higher Order Components 的觀念。Higher Order Components 為一個函數， 接收一個 Component 後在 Class Component 的 render 中 return 回傳入的 components 方式去確認使用者是否有登入，若有沒登入則不能進入分享食譜頁面，反之若已登入也不會再進到登入頁面：
+Within the `checkAuth` Component, we used the Higher Order Components concept. Higher Order Components is a parameter where after receiving a Component it is returned from render method of Class Component thereby confirming if the user has logged in, if they are not they may not enter the recipe sharing page, on the other hand if they have logged in they will no longer enter the login page:
 
 ```javascript
 import React from 'react';
@@ -1063,7 +1064,7 @@ export default function requireAuthentication(Component, type) {
 }
 ```
 
-我們將每個食譜呈現設計成 RecipeBox，以下是在 `src/common/components/HomePage/HomePage.js` 使用 map 方法去迭代我們的食譜：
+We designed the presentation of each recipe as a RecipeBox, below is `src/common/components/HomePage/HomePage.js` using map method to iterate over our recipes:
 
 ```javascript
 import React from 'react';
@@ -1084,7 +1085,7 @@ const HomePage = ({
 export default HomePage;
 ```
 
-以下是 `src/common/containers/HomePageContainer/HomePageContainer.js`：
+Below is `src/common/containers/HomePageContainer/HomePageContainer.js`:
 
 
 ```javascript
@@ -1101,7 +1102,7 @@ export default connect(
 )(HomePage);
 ```
 
-在 `src/common/components/LoginBox/LoginBox.js` 設計我們 LoginBox：
+In `src/common/components/LoginBox/LoginBox.js` design our LoginBox:
 
 ```javascript
 import React from 'react';
@@ -1119,7 +1120,7 @@ const LoginBox = ({
       <FormGroup
         controlId="formBasicText"
       >
-        <ControlLabel>請輸入您的 Email</ControlLabel>
+        <ControlLabel>Please input your Email</ControlLabel>
         <FormControl
           type="text"
           onChange={onChangeEmailInput}
@@ -1130,7 +1131,7 @@ const LoginBox = ({
       <FormGroup
         controlId="formBasicText"
       >
-        <ControlLabel>請輸入您的密碼</ControlLabel>
+        <ControlLabel>Please input your password</ControlLabel>
         <FormControl
           type="password"
           onChange={onChangePasswordInput}
@@ -1144,7 +1145,7 @@ const LoginBox = ({
         bsSize="large" 
         block
       >
-        提交送出
+        submit
       </Button>
     </Form>
   </div>
@@ -1153,7 +1154,7 @@ const LoginBox = ({
 export default LoginBox;
 ```
 
-以下是 `src/common/containers/LoginBoxContainer/LoginBoxContainer.js`：
+Below is `src/common/containers/LoginBoxContainer/LoginBoxContainer.js`:
 
 
 ```javascript
@@ -1195,7 +1196,7 @@ export default connect(
 
 ```
 
-在 `src/common/components/LoginPage/LoginPage.js`，當 spinnerVisible 為 true 會顯示 spinner：
+In `src/common/components/LoginPage/LoginPage.js`, when spinnerVisible is true the spinner is displayed:
 
 
 ```javascript
@@ -1222,7 +1223,7 @@ const LoginPage = ({
 export default LoginPage;
 ```
 
-以下是 `src/common/containers/LoginPageContainer/LoginPageContainer.js`：
+Below is `src/common/containers/LoginPageContainer/LoginPageContainer.js`:
 
 
 ```
@@ -1241,7 +1242,7 @@ export default connect(
 
 ```
 
-真正設計我們內部的食譜， `src/common/components/RecipeBox`，使用者登入的話可以修改和刪除食譜：
+Actually designing our  recipes, `src/common/components/RecipeBox`, if the user is signed in they can edit and delete recipes:
 
 ```javascript
 import React from 'react';
@@ -1256,8 +1257,8 @@ const RecipeBox = (props) => {
           {
             props.isAuthorized === true ? (
             <p>
-              <Button bsStyle="primary" onClick={props.onDeleteRecipe(props.recipe.get('_id'))}>刪除</Button>&nbsp;
-              <Button bsStyle="default" onClick={props.onUpadateRecipe(props.recipe.get('_id'))}>修改</Button>
+              <Button bsStyle="primary" onClick={props.onDeleteRecipe(props.recipe.get('_id'))}>Delete</Button>&nbsp;
+              <Button bsStyle="default" onClick={props.onUpdateRecipe(props.recipe.get('_id'))}>Update</Button>
             </p>)
             : null            
           }
@@ -1269,7 +1270,7 @@ const RecipeBox = (props) => {
 export default RecipeBox;
 ```
 
-以下是 `src/common/containers/RecipeBoxContainer/RecipeBoxContainer.js`：
+Below is `src/common/containers/RecipeBoxContainer/RecipeBoxContainer.js`:
 
 
 ```javascript
@@ -1315,7 +1316,7 @@ export default connect(
 ```
 
 
-設計我們分享食譜頁面，這邊我們把編輯食譜和新增分享一起共用了同一個 components，差別在於我們會判斷 UI State 中的 `isEdit`， 決定相應處理方式。在中 `src/common/components/ShareBox/ShareBox.js`，可以讓使用者登入的後修改和刪除食譜：
+Design our recipe sharing page, here we used the same component for editing and adding a new recipe, the difference is we decide based on `isEdit` in UI State which corresponding handling method to use. In `src/common/components/ShareBox/ShareBox.js`, we allow users to edit and delete recipes after signin:
 
 
 ```javascript
@@ -1328,7 +1329,7 @@ const ShareBox = (props) => {
       <FormGroup
         controlId="formBasicText"
       >
-        <ControlLabel>請輸入食譜名稱</ControlLabel>
+        <ControlLabel>Please input recipe name</ControlLabel>
         <FormControl
           type="text"
           placeholder="Enter text"
@@ -1340,7 +1341,7 @@ const ShareBox = (props) => {
       <FormGroup
         controlId="formBasicText"
       >
-        <ControlLabel>請輸入食譜說明</ControlLabel>
+        <ControlLabel>Please input recipe description</ControlLabel>
         <FormControl 
           componentClass="textarea" 
           placeholder="textarea" 
@@ -1352,7 +1353,7 @@ const ShareBox = (props) => {
       <FormGroup
         controlId="formBasicText"
       >
-        <ControlLabel>請輸入食譜圖片網址</ControlLabel>
+        <ControlLabel>Please input recipe image url</ControlLabel>
         <FormControl
           type="text"
           placeholder="Enter text"
@@ -1367,7 +1368,7 @@ const ShareBox = (props) => {
         bsSize="large" 
         block
       >
-        提交送出
+        submit
       </Button>
     </Form>
   </div>);
@@ -1376,7 +1377,7 @@ const ShareBox = (props) => {
 export default ShareBox;
 ```
 
-以下是 `src/common/containers/ShareBoxContainer/ShareBoxContainer.js`：
+Below is `src/common/containers/ShareBoxContainer/ShareBoxContainer.js`:
 
 
 ```javascript
@@ -1432,7 +1433,7 @@ export default connect(
 
 ```
 
-單純的 SharePage（`src/common/components/SharePage/SharePage.js`）頁面：
+Simple SharePage (`src/common/components/SharePage/SharePage.js`) Page:
 
 ```javascript
 import React from 'react';
@@ -1452,7 +1453,7 @@ const SharePage = () => (
 export default SharePage;
 ```
 
-以下是 `src/common/containers/SharePageContainer/SharePageContainer.js`：
+Below is `src/common/containers/SharePageContainer/SharePageContainer.js`:
 
 
 ```javascript
@@ -1468,19 +1469,19 @@ export default connect(
 )(SharePage);
 ```
 
-恭喜你成功抵達終點！若一切順利，在終端機打上 `$ npm start`，你將可以在瀏覽器的 `http://localhost:3000` 看到自己的成果！
+Congrats for crossing the finish line sucessfully! If everything went well, in the terminal run `$ npm start`, and you can see the fruits of your effort in the browser at `http://localhost:3000`!
 
-![用 React + Redux + Node（Isomorphic）開發一個食譜分享網站](./images/open-cook-demo-1.png "用 React + Redux + Node（Isomorphic）開發一個食譜分享網站")
+![Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website](./images/open-cook-demo-1.png "Using React + Redux + Node (Isomorphic JavaScript) to develop a recipe-sharing website")
 
-## 總結
-本章整合過去所學和添加一些後端資料庫知識開發了一個可以登入會員並分享食譜的社群網站！快把你的成果和你的朋友分享吧！覺得意猶未盡？別忘了附錄也很精采！最後，再次謝謝讀者們支持我們一路走完了 React 開發學習之旅！然而前端技術變化很快，唯有不斷自我學習才能持續成長。筆者才疏學淺，撰寫學習心得或有疏漏，若有任何建議或提醒都歡迎和我說，大家一起加油：）
+## Summary
+This article integrated all of our past learnings and added a bit of backend database knowledge to develop a community website that can sign members in and allow recipe-sharing! Hurry up and share your result with your friends! Yearning for more? Don't forget the Appendix is also very exciting! Lastly, once again many thanks to readers that have supported our path all the way to completing this React development journey! However front-end technologies change rapidly, only continuous self driven learning will sustain growth. This writer is of humble talent and shallow learning, if there are any insights while learning, missed points, suggestions or reminders I welcome everyone to tell me, let us work hard together :)
 
-## 延伸閱讀
+## Extended Reading
 1. [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
 2. [Securing React Redux Apps With JWT Tokens](https://medium.com/@rajaraodv/securing-react-redux-apps-with-jwt-tokens-fcfe81356ea0#.5hfri5j5m)
 3. [Adding Authentication to Your React Native App Using JSON Web Tokens](https://auth0.com/blog/adding-authentication-to-react-native-using-jwt/)
 4. [Authentication in React Applications, Part 2: JSON Web Token (JWT)](http://vladimirponomarev.com/blog/authentication-in-react-apps-jwt)
-5. [Node.js 身份認證：Passport 入門](https://nodejust.com/nodejs-passport-auth-tutorial/)
+5. [Node.js id validation: Passport primer](https://nodejust.com/nodejs-passport-auth-tutorial/)
 6. [react-bootstrap compatibility #83](https://github.com/reactjs/react-router/issues/83)
 7. [How to authenticate routes using Passport? #725](https://github.com/reactjs/react-router/issues/725)
 8. [Isomorphic React Web App Demo with Material UI](https://github.com/tech-dojo/react-showcase)
@@ -1502,7 +1503,7 @@ export default connect(
 ## License
 MIT, Special thanks [Loading.io](http://loading.io/)
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：React Redux Sever Rendering（Isomorphic JavaScript）入門](https://github.com/kdchang/reactjs101/blob/master/Ch10/react-redux-server-rendering-isomorphic-javascript.md) | [下一章：附錄一、React ES5、ES6+ 常見用法對照表](https://github.com/kdchang/reactjs101/tree/master/Appendix01) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) | [Previous article: React Redux Sever Rendering (Isomorphic JavaScript) Introduction](https://github.com/sycherng/reactjs101/blob/en-US/Ch10/react-redux-server-rendering-isomorphic-javascript.md) | [Next article: Appendix 1, React ES5, ES6+ Common Usage Reference Sheet](https://github.com/sycherng/reactjs101/tree/en-US/Appendix01) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [Corrections, questions or requests](https://github.com/kdchang/reactjs101/issues) |

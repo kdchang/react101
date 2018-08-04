@@ -1,26 +1,28 @@
-# ReactJS 與 Component 設計入門介紹
+# ReactJS and Component Design Introduction
 
-## 前言
-在上一個章節中我們快速學習了 React 開發環境建置和 Webpack 入門。接下來我們將更進一步了解 React 和 Component 設計時需注意的幾個重要特性。
+## Foreword
+In the previous chapter we quickly learned about React development environment configuration and basic Webpack concepts. Now we will deepen our understanding of several important characteristics to pay attention to during React and Component design.
 
-## ReactJS 特性簡介
-React 原本是 Facebook 自己內部使用的開發工具，但卻是一個目標遠大的一個專案：`Learn once, write anywhere`。自從 2013 年開源後周邊的生態系更是蓬勃發展。ReactJS 的出現讓前端開發有許多革新性的思維出現，其中有幾個重要特性值得我們去探討：
+## ReactJS characteristics introduction
+React originally was a development tool used internally at Facebook, yet it was a project with a very lofty goal: `Learn once, write anywhere`. Ever since its open-source release in 2013 its ecosystem has expanded rapidly. The appearance of ReactJS allowed front-end development to see many revolutionary new lines of thinking to emerge, of which there are a few major characteristics worthy of our inspection:
 
-1. 基於元件（Component）化思考
-2. 用 JSX 進行宣告式（Declarative）UI 設計
-3. 使用 Virtual DOM
-4. Component PropType 防呆機制
-5. Component 就像個狀態機（State Machine），而且也有生命週期（Life Cycle）
-6. 一律重繪（Always Redraw）和單向資料流（Unidirectional Data Flow）
-7. 在 JavaScript 裡寫 CSS：Inline Style 
+1. Thinking in terms of Components
+2. Using JSX to carry out Declarative UI design
+3. Use of a Virtual DOM
+4. Component PropType error-proofing mechanism
+5. Components are like State Machines, in that they also have Life Cycles
+6. "Always Redraw" and Unidirectional Data Flow
+7. Writing Inline Style CSS within Javascript
 
-## 基於元件（Component）化思考
+## Thinking in terms of Components
 
-![ReactJS 與 Component 設計入門介紹](./images/component.png "ReactJS 與 Component 設計入門介紹")
 
-在 React 的世界中最基本的單元為元件（Component），每個元件也可以包含一個以上的子元件，並依照需求組裝成一個組合式的（Composable）元件，因此具有封裝（encapsulation）、關注點分離 (Separation of Concerns)、複用 (Reuse) 、組合 (Compose) 等特性。
+![ReactJS and Component Design Introduction](./images/component.png "ReactJS and Component Design Introduction")
 
-`<TodoApp>` 元件可以包含 `<TodoHeader />`、`<TodoList />` 子元件
+In the world of React, the most fundamental units are Components, every component may have child components, and may be combined into a Composable unit according to build needs, in doing so allowing characteristics such as encapsulation, Separation of Concerns, Reuse, and Compose.
+
+
+`<TodoApp>` component may include `<TodoHeader />`, `<TodoList />` child components
 ```javascript
 	<div>
 		<TodoHeader />
@@ -28,29 +30,30 @@ React 原本是 Facebook 自己內部使用的開發工具，但卻是一個目�
 	</div>
 ```
 
-`<TodoList />` 元件內部長相：
+Inside the `<TodoList />` component：
 ```javascript
 	<div>
 		<ul>
-			<li>寫程式碼</li>
-			<li>哄妹子</li>
-			<li>買書</li>
+			<li>write code</li>
+			<li>flirt with girls</li>
+			<li>purchase books</li>
 		</ul>
 	</div>
 ```
 
-元件化一直是網頁前端開發的聖杯，許多開發者最希望的就是可以最大化重複使用（reuse）過去所寫的程式碼，不要重複造輪子（DRY）。在 React 中元件是一切的基礎，讓開發應用程式就好像在堆積木一樣。然而對於過去習慣模版式（template）開發的前端工程師來說，短時間要轉換成元件化思考模式並不容易，尤其過去我們往往習慣於將 HTML、CSS 和 JavaScript 分離，現在卻要把它們都封裝在一起。
+The change towards using Components is a holy grail within web fron-end development, many developers' biggest wish is to have maximal reuse of written code (aka DRY code), avoiding duplicate work. In React, components are the foundation to everything, allowing the app development process to seem like building with bricks. However for those front-end developers who in the past have become accustomed to using templates in their development, it is not easy to switch to component-based thinking within a short timeframe, especially when we have become used to separation of HTML, CSS and JavaScript, only to now have to put them all together.
 
-一個比較好的方式就是訓練自己看到不同的網頁或應用程式時，強迫自己將看到的頁面切成一個個元件。相信過了一段時間後，天眼開了，就比較容易習慣元件化的思考方式。
+A rather optimal way to train yourself is when viewing various webpages or applications, force yourself to see the entire website in terms of individual components. Have faith that after a period of time, your eyes will open, and become familiarized with thinking in terms of components.
 
-以下是一般 React Component 撰寫的主要兩種方式：
 
-1. 使用 ES6 的 Class（可以進行比較複雜的操作和元件生命週期的控制，相對於 stateless components 耗費資源）
+Below are the two common ways to write React Components:
+
+1. Using Class from ES6 (allows more complex operations and control over the lifecycle of the component, more resource intensive than stateless components)
 
 	```javascript
-	//  注意元件開頭第一個字母都要大寫
+	//  pay note to capitalize the first letter of Component
 	class MyComponent extends React.Component {
-		// render 是 Class based 元件唯一必須的方法（method）
+		// render is the only method that is mandatory for Class based components
 		render() {
 			return (
 				<div>Hello, World!</div>
@@ -58,52 +61,52 @@ React 原本是 Facebook 自己內部使用的開發工具，但卻是一個目�
 		}
 	}
 
-	// 將 <MyComponent /> 元件插入 id 為 app 的 DOM 元素中
+	// Insert the component named <MyComponent /> into the DOM element with id set to 'app'
 	ReactDOM.render(<MyComponent/>, document.getElementById('app'));
 	```
 
-2. 使用 Functional Component 寫法（單純地 render UI 的 stateless components，沒有內部狀態、沒有實作物件和 ref，沒有生命週期函數。若非需要控制生命週期的話建議多使用 stateless components 獲得比較好的效能）
+2. Writing a Functional Component (stateless components to be rendered simply in the UI, there is no actual object with ref, no lifecycle variable. If you do not need to control the lifecycle, stateless components are recommended to achieve better performance)
 
 	```javascript
-	// 使用 arrow function 來設計 Functional Component 讓 UI 設計更單純（f(D) => UI），減少副作用（side effect）
+	// Use arrow function to designate Functional Components allowing UI design to be simpler（f(D) => UI）, reducing side effects
 	const MyComponent = () => (
 		<div>Hello, World!</div>
 	);
 	
-	// 將 <MyComponent /> 元件插入 id 為 app 的 DOM 元素中
+	// Insert the component named <MyComponent /> into the DOM element with id set to 'app'
 	ReactDOM.render(<MyComponent/>, document.getElementById('app'));
 	```
 
-## 用 JSX 進行宣告式（Declarative）UI 設計
-React 在設計上的思路認為使用 Component 比起模版（Template）和顯示邏輯（Display Logic）更能實現關注點分離的概念，而搭配 JSX 可以實現聲明式 Declarative（注重 what to），而非命令式 Imperative（注重 how to）的程式撰寫方式。
+## Using JSX to carry out Declarative UI design
+React's design follows the belief that the use of Components allows better separation of concerns as compared to Template and Display Logic based design, pairing with JSX enables Declarative (focus on "what to") as opposed to Imperative ("how to") programming style.
 
-像下述的宣告式（Declarative）UI 設計就比單純用（Template）式的方式更易懂：
+For example the below Declarative style UI design is easier to understand than a design only using Templates:
 
 ```javascript
-// 使用宣告式（Declarative）UI 設計很容易可以看出這個元件的功能
+// Use of Declarative UI design makes it easy to see the purpose of this component
 <MailForm />
 ```
 
 ```javascript
-// <MailForm /> 內部長相
+// How <MailForm /> looks on the inside:
 <form>
 	<input type="text" name="email" />
 	<button type="submit"></button>
 </form>
 ```
 
-由於 JSX 在 React 元件撰寫上扮演很重要的角色，因此在下一個章節我們也將更深入講解 JSX 使用細節。 
+Because JSX plays a key role in writing React components, we will cover JSX usage in more detail in the next chapter.
 
-## 使用 Virtual DOM
-在傳統 Web 中一般是使用 jQuery 進行 DOM 的直接操作。然而更改 DOM 往往是 Web 效能的瓶頸，因此在 React 世界設計有 Virtual DOM 的機制，讓 App 和 DOM 之間用 Virtual DOM 進行溝通。當更改 DOM 時，會透過 React 自身的 diff 演算法去計算出最小更新，進而去最小化更新真實的 DOM。
+## Use of a Virtual DOM
+It is common in the traditional Web to use jQuery for direct handling of DOM operations. Changes in the DOM was frequently a bottleneck for Web performance, therefore the React world provides a Virtual DOM mechanism, allowing the App and DOM to communicate through the Virtual DOM. When the DOM is altered, React's internal diff calculates the smallest update needed, and executes those minimal updates on the real DOM.
 
-## Component PropType 防呆機制
-在 React 設計時除了提供 props 預設值設定（Default Prop Values）外，也提供了 Prop 的驗證（Validation）機制，讓整個 Component 設計更加穩健：
+## Component PropType error-proofing mechanism
+The design in React not only provides props with Default Prop Values, it also provides Prop Validation mechanisms, allowing the design of the entire Component to be more robust:
 
 ```javascript
-//  注意元件開頭第一個字母都要大寫
+//  pay note to capitalize thf first letter in Component
 class MyComponent extends React.Component {
-	// render 是 Class based 元件唯一必須的方法（method）
+	// render is the only mandatory method in Class based components
 	render() {
 		return (
 			<div>Hello, World!</div>
@@ -111,29 +114,30 @@ class MyComponent extends React.Component {
 	}
 }
 
-// PropTypes 驗證，若傳入的 props type 不符合將會顯示錯誤
+// PropTypes validation, if prop type is invalid an error is displayed
 MyComponent.propTypes = {
   todo: React.PropTypes.object,
   name: React.PropTypes.string,
 }
 
-// Prop 預設值，若對應 props 沒傳入值將會使用 default 值
+// Prop default values, if no parameters are given to props it will take on the default values
 MyComponent.defaultProps = {
  todo: {}, 
  name: '', 
 }
 ```
 
-關於更多的 Validation 用法可以參考[官方網站](https://facebook.github.io/react/docs/reusable-components.html) 的說明。
+For more ways to use Validation check out the instructions at [official webpage](https://facebook.github.io/react/docs/reusable-components.html).
 
-## Component 就像個狀態機（State Machine），而且也有生命週期（Life Cycle）
-Component 就像個狀態機（State Machine），根據不同的 state（透過 `setState()` 修改）和 props（由父元素傳入），Component 會出現對應的顯示結果。而人有生老病死，元件也有生命週期。透過操作生命週期處理函數，可以在對應的時間點進行 Component 需要的處理，關於更詳細的元件生命週期介紹我們會再下一個章節進行更一步說明。
+## Components are like State Machines, in that they also have Life Cycles
+Components act like a State Machine, depending on the varying state (edited via `setState()`) and props (provided by the parent component), Components will display a corresponding result. And as humans age and pass away, components also have life cycles. Through manipulation of the life cycle veriable, we can specify exact times for the Component to handle tasks, a more detailed introduction on Component lifecycles will be covered in the next chapter.
 
-## 一律重繪（Always Redraw）和單向資料流（Unidirectional Data Flow）
-在 React 世界中，props 和 state 是影響 React Component 長相的重要要素。其中 props 都是由父元素所傳進來，不能更改，若要更改 props 則必須由父元素進行更改。而 state 則是根據使用者互動而產生的不同狀態，主要是透過 setState() 方法進行修改。當 React 發現 props 或是 state 更新時，就會重繪整個 UI。當然你也可以使用 forceUpdate() 去強迫重繪 Component。而 React 透過整合 Flux 或 Flux-like（例如：Redux）可以更具體實現單向資料流（Unidirectional Data Flow），讓資料流的管理更為清晰。
+## "Always Redraw" and Unidirectional Data Flow
+In the React world, props and state are important features that affect the appearance of React Components. In particular props are conveyed from the parent component and cannot be changed. On the other hand state is altered according to interactions with the user, it mainly changes through the setState() method. When React discovers a new change in props or state, it will completely redraw the UI. Of course you can always use forceUpdate() method to forcibly redraw a component. Paired with Flux or Flux-like architectures (for example: Redux), React can realize Unidirectional Data Flow in an even more concrete way, providing heightened clarity for data flow management.
 
-## 在 JavaScript 裡寫 CSS：Inline Style 
-在 React Component 中 CSS 使用 Inline Style 寫法，全都封裝在 JavaScript 當中：
+
+## Writing Inline Style CSS within Javascript
+Within a React Component, Inline Style CSS can be wrapped within Javascript:
 
 ```javascript
 const divStyle = {
@@ -144,28 +148,28 @@ const divStyle = {
 ReactDOM.render(<div style={divStyle}>Hello World!</div>, document.getElementById('app'));
 ```
 
-## 總結
-以上介紹了 ReactJS 的幾個重要特性：
+## Summary
+Above we covered several key characteristics of ReactJS:：
 
-1. 基於元件（Component）化思考
-2. 用 JSX 進行宣告式（Declarative）UI 設計
-3. 使用 Virtual DOM
-4. Component PropType 防呆機制
-5. Component 就像個狀態機（State Machine），而且也有生命週期（Life Cycle）
-6. 一律重繪（Always Redraw）和單向資料流（Unidirectional Data Flow）
-7. 在 JavaScript 裡寫 CSS：Inline Style
+1. Thinking in terms of Components
+2. Using JSX to carry out Declarative UI design
+3. Use of a Virtual DOM
+4. Component PropType error-proofing mechanism
+5. Components are like State Machines, in that they also have Life Cycles
+6. "Always Redraw" and Unidirectional Data Flow
+7. Writing Inline Style CSS within Javascript
 
-接下來我們將進一步探討 React 裡 JSX 的使用方式。
+In the next part we will investigate the usage of JSX in React with more detail.
 
-## 延伸閱讀
-1. [React 入门实例教程](http://www.ruanyifeng.com/blog/2015/03/react.html)
+## Extended Reading
+1. [React Example-Based Primer Course](http://www.ruanyifeng.com/blog/2015/03/react.html)
 2. [React Demystified](http://blog.reverberate.org/2014/02/react-demystified.html)
 3. [Top-Level API](https://facebook.github.io/react/docs/top-level-api.html)
 4. [ES6 Classes Component](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
 
-（image via [maketea](http://maketea.co.uk/images/2014-03-05-robust-web-apps-with-react-part-1/wireframe_deconstructed.png)）
+(image via [maketea](http://maketea.co.uk/images/2014-03-05-robust-web-apps-with-react-part-1/wireframe_deconstructed.png))
 
-## :door: 任意門
-| [回首頁](https://github.com/kdchang/reactjs101) | [上一章：React 開發環境設置與 Webpack 入門教學](https://github.com/kdchang/reactjs101/blob/master/Ch02/webpack-dev-enviroment.md) | [下一章：JSX 簡明入門教學指南](https://github.com/kdchang/reactjs101/blob/master/Ch03/react-jsx-introduction.md) |
+## :door: Nexus
+| [Home](https://github.com/sycherng/reactjs101/tree/en-US) | [Previous article：React Development Environment Settings and Introduction to Webpack](https://github.com/sycherng/reactjs101/blob/en-US/Ch02/webpack-dev-enviroment.md) | [Next article: JSX Simple Starter Guide](https://github.com/sycherng/reactjs101/blob/en-US/Ch03/react-jsx-introduction.md) |
 
-| [勘誤、提問或許願](https://github.com/kdchang/reactjs101/issues) |
+| [Corrections, questions, or requests](https://github.com/kdchang/reactjs101/issues) |

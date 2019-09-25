@@ -33,7 +33,7 @@ NPM（Node Package Manager）是 Node.js 下的主流套件管理工具。在 NP
 
 2. AMD
 
-	[Asynchronous Module Definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 簡稱 AMD，為非同步載入模組的規範，其在宣告時模組時即需定義依賴的模組。AMD 常用於瀏覽器端，其最著名的實踐為 [RequireJS](http://requirejs.org/)
+	[Asynchronous Module Definition](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 簡稱 AMD，為非同步載入模組的規範，其在宣告模組時即需定義依賴的模組。AMD 常用於瀏覽器端，其最著名的實踐為 [RequireJS](http://requirejs.org/)
 
 	基本格式：
 	```js 

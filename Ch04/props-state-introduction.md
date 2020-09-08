@@ -142,8 +142,6 @@ class Timer extends React.Component {
 ReactDOM.render(<Timer />, document.getElementById('app'));
 ```
 
-關於 Javascript this 用法可以參考 [Javascript：this用法整理](https://software.intel.com/zh-cn/blogs/2013/10/09/javascript-this)。
-
 ## 事件處理（Event Handle）
 在前面的內容我們已經學會如何使用 props 和 state，接下來我們要更進一步學習在 React 內如何進行事件處理。下列將使用 React 官網的 An Application 當做例子，實作出一個簡單的 TodoApp。
 

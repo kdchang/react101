@@ -3,7 +3,7 @@
 ![JSX 簡明入門教學指南](./images/reactjs.png)
 
 ## 前言
-根據 [React](https://facebook.github.io/react/) 官方定義，React 是一個構建使用者介面的 JavaScritp Library。以 MVC 模式來說，ReactJS 主要是負責 View 的部份。過去一段時間，我們被灌輸了許多前端分離的觀念，在前端三兄弟中（或三姊妹、三劍客）：HTML 掌管內容結構、CSS 負責外觀樣式，JavaScript 主管邏輯互動，千萬不要混在一塊。然而，在 React 世界裡，所有事物都是 以 Component 為基礎，將同一個 Component 相關的程式和資源都放在一起，而在撰寫 React Component 時我們通常會使用 [JSX](https://facebook.github.io/jsx/) 的方式來提升程式撰寫效率。事實上，JSX 並非一種全新的語言，而是一種語法糖（[Syntatic Sugar](https://en.wikipedia.org/wiki/Syntactic_sugar)），一種語法類似 [XML](https://zh.wikipedia.org/wiki/XML) 的 ECMAScript 語法擴充。在 JSX 中 HTML 和組建這些元素標籤的程式碼有緊密的關係。因此你可能要熟悉一下以 Component 為單位的思考方式（本文主要使用 ES6 語法）。
+根據 [React](https://facebook.github.io/react/) 官方定義，React 是一個構建使用者介面的 JavaScript Library。以 MVC 模式來說，ReactJS 主要是負責 View 的部份。過去一段時間，我們被灌輸了許多前端分離的觀念，在前端三兄弟中（或三姊妹、三劍客）：HTML 掌管內容結構、CSS 負責外觀樣式，JavaScript 主管邏輯互動，千萬不要混在一塊。然而，在 React 世界裡，所有事物都是 以 Component 為基礎，將同一個 Component 相關的程式和資源都放在一起，而在撰寫 React Component 時我們通常會使用 [JSX](https://facebook.github.io/jsx/) 的方式來提升程式撰寫效率。事實上，JSX 並非一種全新的語言，而是一種語法糖（[Syntatic Sugar](https://en.wikipedia.org/wiki/Syntactic_sugar)），一種語法類似 [XML](https://zh.wikipedia.org/wiki/XML) 的 ECMAScript 語法擴充。在 JSX 中 HTML 和組建這些元素標籤的程式碼有緊密的關係。因此你可能要熟悉一下以 Component 為單位的思考方式（本文主要使用 ES6 語法）。
 
 此外，React 和 JSX 的思維在於善用 JavaScript 的強大能力，放棄蹩腳的模版語言，這和 [Angular](https://angularjs.org/) 強化 HTML 的理念也有所不同。當然 JSX 並非強制使用，你也可以選擇不用，因為最終 JSX 的內容會轉化成 JavaScript（瀏覽器只看的懂 JavaScript）。不過等你閱讀完接下來的內容，你或許會開始發現 JSX 的好，認真考慮使用 JSX 的語法。
 
